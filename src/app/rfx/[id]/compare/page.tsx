@@ -22,8 +22,11 @@ export default async function ComparePage({ params }: { params: Promise<{ id: st
     [id],
   );
 
-  const vendorRows = await all<{ id: string; name: string; currency: string | null; incoterm: string | null; validity: string | null; doc_id: string; filename: string }>(
-    `SELECT v.id, v.name, q.currency, q.incoterm, q.validity, q.doc_id, d.filename
+  const vendorRows = await all<{
+    id: string; name: string; currency: string | null; incoterm: string | null;
+    validity: string | null; unquoted_note: string | null; doc_id: string; filename: string;
+  }>(
+    `SELECT v.id, v.name, q.currency, q.incoterm, q.validity, q.unquoted_note, q.doc_id, d.filename
        FROM quote q JOIN vendor v ON v.id = q.vendor_id JOIN vendor_document d ON d.id = q.doc_id
       WHERE q.rfx_id = ? ORDER BY v.name`,
     [id],
@@ -72,6 +75,7 @@ export default async function ComparePage({ params }: { params: Promise<{ id: st
       held: mine.filter((c) => c.blocked === 1).length,
       gateCleared: g?.cleared ?? false,
       gateDetail: [...(g?.failures ?? []), ...(g?.unanswered ?? []).map((u) => `${u} (unanswered)`)],
+      unquotedNote: v.unquoted_note,
     };
   });
 

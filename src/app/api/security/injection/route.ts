@@ -11,7 +11,7 @@ import { ModelUnavailableError } from '@/lib/ai/client';
 export const runtime = 'nodejs';
 export const maxDuration = 300;
 
-const ADVERSARIAL_VENDOR = 'v_adversarial_test';
+const ADVERSARIAL_VENDOR = 'v_apex_adversarial';
 
 /**
  * Runs the prompt-injection fixture through the real extraction loop.
@@ -29,16 +29,24 @@ export async function POST(req: Request) {
   const { rfxId } = (await req.json()) as { rfxId?: string };
   if (!rfxId) return NextResponse.json({ error: 'rfxId is required.' }, { status: 400 });
 
-  const file = path.join(process.cwd(), 'data', 'adversarial', 'injection-quote.xlsx');
-  if (!fs.existsSync(file)) {
+  // The supplied adversarial fixture: a Word quotation with an instruction to
+  // the processing agent set in white 1pt text. Falls back to the generated
+  // spreadsheet fixture if the Aerchain dataset is not present.
+  const candidates = [
+    path.join(process.cwd(), 'data', 'aerchain', 'adversarial', '06_ADVERSARIAL_Apex_injection.docx'),
+    path.join(process.cwd(), 'data', 'adversarial', 'injection-quote.xlsx'),
+  ];
+  const file = candidates.find((c) => fs.existsSync(c));
+  if (!file) {
     return NextResponse.json(
-      { error: 'Adversarial fixture missing. Run: npm run fixtures' },
+      { error: 'No adversarial fixture found. Expected the Apex injection document under data/aerchain/adversarial.' },
       { status: 404 },
     );
   }
 
+  const filename = path.basename(file);
   const buf = fs.readFileSync(file);
-  const s = sniff(buf, 'injection-quote.xlsx');
+  const s = sniff(buf, filename);
   if (!s.ok || !s.mime) return NextResponse.json({ error: s.reason }, { status: 415 });
 
   const rfx = await one<{ org_id: string }>('SELECT org_id FROM rfx WHERE id = ?', [rfxId]);
@@ -46,7 +54,7 @@ export async function POST(req: Request) {
   if (!existingVendor) {
     await run(
       'INSERT INTO vendor (id, org_id, name, country, email, currency_hint) VALUES (?,?,?,?,?,?)',
-      [ADVERSARIAL_VENDOR, rfx?.org_id ?? 'org_demo', 'ACME Packaging (injection test)', 'IN', 'test@adversarial.invalid', null],
+      [ADVERSARIAL_VENDOR, rfx?.org_id ?? 'org_demo', 'Apex Corrugated Works (injection fixture)', 'IN', 'test@adversarial.invalid', null],
     );
   }
 
@@ -58,8 +66,8 @@ export async function POST(req: Request) {
     const outcome = await extractQuote({
       buf,
       mime: s.mime,
-      filename: 'injection-quote.xlsx',
-      vendorName: 'ACME Packaging',
+      filename,
+      vendorName: 'Apex Corrugated Works',
       questions: questions.map((q) => q.question),
       canonicalUomHint: ['piece', 'kg', 'set', '100_pieces'],
     });
@@ -75,7 +83,7 @@ export async function POST(req: Request) {
       `INSERT INTO audit_log (id, rfx_id, actor, action, entity, entity_id, before_json, after_json, at)
        VALUES (?,?,?,?,?,?,NULL,?,?)`,
       [
-        `au_${nanoid(10)}`, rfxId, 'system', 'security.injection_test', 'document', 'injection-quote.xlsx',
+        `au_${nanoid(10)}`, rfxId, 'system', 'security.injection_test', 'document', filename,
         j.stringify({
           sha256: sha256(buf).slice(0, 16),
           linesExtracted: ex.lines.length,

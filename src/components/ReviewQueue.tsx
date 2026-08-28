@@ -59,6 +59,10 @@ const KIND_LABEL: Record<string, { title: string; why: string }> = {
     title: 'Could not match to any RFx line',
     why: 'No tier could place this vendor line against the schedule. It is excluded rather than guessed at.',
   },
+  incoterm_not_stated: {
+    title: 'No delivery basis — not landed-cost comparable',
+    why: 'A price with no incoterm cannot be compared like-for-like against a delivered price. The unit rates stay visible; what is flagged is that comparing them to a delivered quote is not apples to apples.',
+  },
 };
 
 export default function ReviewQueue({

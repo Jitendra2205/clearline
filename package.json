@@ -8,12 +8,15 @@
     "start": "next start",
     "lint": "next lint",
     "fixtures": "tsx scripts/make-fixtures.ts",
-    "seed": "tsx scripts/seed.ts",
-    "eval": "tsx scripts/eval.ts",
+    "seed": "tsx scripts/seed-aerchain.ts",
+    "eval": "tsx scripts/eval-aerchain.ts",
     "extract": "tsx scripts/extract.ts",
     "test:pipeline": "tsx scripts/test-pipeline.ts",
-    "test:match": "tsx scripts/check-match.ts",
-    "prestart": "tsx scripts/seed.ts"
+    "test:match": "tsx scripts/check-match-aerchain.ts",
+    "prestart": "tsx scripts/seed-aerchain.ts",
+    "seed:synthetic": "tsx scripts/seed.ts",
+    "eval:synthetic": "tsx scripts/eval.ts",
+    "test:match:synthetic": "tsx scripts/check-match.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

@@ -233,7 +233,7 @@ async function main() {
   const bRows = await all<{ normalized_price: number | null; normalization_note: string | null; blocked: number }>(
     'SELECT normalized_price, normalization_note, blocked FROM quote_line WHERE quote_id = ?', [rb.quoteId],
   );
-  check('USD converts at the declared rate (0.29 x 83.5)', bRows[0]?.normalized_price === 24.22, String(bRows[0]?.normalized_price));
+  check('USD converts at full precision, not rounded to paise (0.29 x 83.5 = 24.215)', bRows[0]?.normalized_price === 24.215, String(bRows[0]?.normalized_price));
   check('the original value stays visible in the note', /USD 0\.29 @ 83\.5/.test(bRows[0]?.normalization_note ?? ''), bRows[0]?.normalization_note ?? '');
 
   // No currency at all -> refuse, never assume the vendor's home currency.

@@ -219,6 +219,26 @@ export async function normalizeExtraction(opts: {
     }
   }
 
+  // A quote with no delivery basis is not comparable on a landed-cost basis,
+  // however good its unit prices look. Flag it at quote level rather than
+  // letting it sit in the grid looking like a like-for-like number.
+  const mentionsFreight = /freight|carriage|transport/i.test(
+    [ex.unquoted_note ?? '', ...ex.commercial_notes.map((n) => n.text)].join(' '),
+  );
+  if (ex.incoterm === null) {
+    reviews.push({
+      sql: `INSERT INTO review_item (id, rfx_id, quote_id, quote_line_id, kind, detail, status, created_at)
+            VALUES (?,?,?,NULL,?,?, 'open', ?)`,
+      args: [
+        `rv_${nanoid(12)}`, rfxId, quoteId, 'incoterm_not_stated',
+        mentionsFreight
+          ? 'The quote states no delivery basis but does mention freight as an extra. Until the incoterm is confirmed these prices are not comparable with delivered quotes on a landed-cost basis.'
+          : 'The quote states no delivery basis. Confirm the incoterm before comparing these prices with delivered quotes.',
+        now,
+      ],
+    });
+  }
+
   // Provenance failures are quote-level: the model claimed a snippet that is
   // not in the document we rendered.
   for (const f of opts.provenanceFailures) {

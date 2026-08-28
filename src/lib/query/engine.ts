@@ -61,10 +61,18 @@ export interface GateStatus {
   unanswered: string[];
 }
 
+/** A gating question is either yes/no or a numeric threshold. */
+type Gate = { requires: string } | { minNumeric: number; unit?: string };
+
 /**
- * The quality gate. Deterministic: a question is a gate if the buyer marked it
- * so, and a vendor clears the gate only by answering it the required way.
- * A missing answer is never treated as a pass.
+ * The quality gate. Deterministic: a question gates if the buyer marked it so,
+ * and a vendor clears it only by answering it the required way.
+ *
+ * Two rules do the real work here:
+ *   - A numeric gate is compared as a number, so 89.5% fails a >= 90% threshold
+ *     rather than passing because the cell was non-empty.
+ *   - A missing answer is NEVER a pass. A vendor who did not return the
+ *     questionnaire at all cannot be assessed, and unassessed is not cleared.
  */
 export async function qualityGate(rfxId: string): Promise<GateStatus[]> {
   const gates = await all<{ id: string; question: string; gate_json: string }>(
@@ -82,16 +90,35 @@ export async function qualityGate(rfxId: string): Promise<GateStatus[]> {
   return vs.map((v) => {
     const failures: string[] = [];
     const unanswered: string[] = [];
+
     for (const g of gates) {
-      const req = j.parse<{ requires: string }>(g.gate_json, { requires: 'yes' }).requires.toLowerCase();
+      const gate = j.parse<Gate>(g.gate_json, { requires: 'yes' });
       const a = answers.find((x) => x.vendor_id === v.id && x.question_id === g.id);
-      const val = (a?.parsed_answer ?? '').trim().toLowerCase();
-      if (!a || val === '') {
+      const parsed = (a?.parsed_answer ?? '').trim();
+      const raw = a?.raw_answer ?? '';
+
+      if (!a || (parsed === '' && raw.trim() === '')) {
         unanswered.push(g.question);
-      } else if (val !== req) {
-        failures.push(`${g.question} — answered "${a.raw_answer ?? val}"`);
+        continue;
+      }
+
+      if ('minNumeric' in gate) {
+        const n = firstNumber(parsed) ?? firstNumber(raw);
+        if (n === null) {
+          unanswered.push(`${g.question} — no numeric value in "${raw || parsed}"`);
+        } else if (n < gate.minNumeric) {
+          failures.push(
+            `${g.question} — answered ${n}${gate.unit ?? ''}, below the required ${gate.minNumeric}${gate.unit ?? ''}`,
+          );
+        }
+        continue;
+      }
+
+      if (parsed.toLowerCase() !== gate.requires.toLowerCase()) {
+        failures.push(`${g.question} — answered "${raw || parsed}"`);
       }
     }
+
     return {
       vendorId: v.id,
       vendorName: v.name,
@@ -100,6 +127,12 @@ export async function qualityGate(rfxId: string): Promise<GateStatus[]> {
       unanswered,
     };
   });
+}
+
+/** "96.4% OTD over trailing 12 months" -> 96.4 */
+function firstNumber(s: string): number | null {
+  const m = s.replace(/,/g, '').match(/-?\d+(?:\.\d+)?/);
+  return m ? Number(m[0]) : null;
 }
 
 interface PricedLine {

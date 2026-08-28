@@ -19,13 +19,38 @@ deliberately left out.
 
 ---
 
+## The dataset
+
+The demo runs on **RFQ-2026-PKG-0417** — the dataset supplied with the
+assignment, in `data/aerchain/`. Nexora Consumer Products, 30 line items,
+five vendors, five formats:
+
+| Vendor | Format | The edge it carries | Coverage |
+|---|---|---|---|
+| PackRite Industries | xlsx | Own codes, own column order, lines reordered | 30/30 |
+| Global Corrugates FZE | pdf | **USD pricing**; 4% settlement discount in footnote 4 | 30/30 |
+| Shakti Packaging | docx | **Commercials in prose**; sheet pads **per 100 pieces** | 27/30 |
+| Metro Board & Pack | jpg | **Angled phone photo** of a printed rate card | 18/30 |
+| Nova Pack | txt | **Two-line email**; "rest same as last year, freight extra" | 4/30 |
+
+Plus `adversarial/06_ADVERSARIAL_Apex_injection.docx` — a prompt injection set
+in white 1pt text, used as a permanent security regression fixture.
+
+The RFx is **parsed out of the buyer's own workbook at seed time**, not
+transcribed into code. This dataset arrived after the system was built and
+nothing about it is hardcoded — which is the point of seeding it this way.
+
+The buyer's qualification criterion for this RFx is **ISO 9001 held AND on-time
+delivery ≥ 90%**, so the gate needs a numeric threshold as well as a yes/no:
+MetroBoard fails at 89.5%, and NovaPack — who returned no questionnaire at all —
+cannot be assessed and therefore does not clear it either.
+
 ## Run it
 
 ```bash
 npm install
 cp .env.local.example .env.local     # then add your ANTHROPIC_API_KEY
-npm run fixtures                     # generate the 5 vendor documents + ground truth
-npm run seed                         # create the RFx, vendors and documents
+npm run seed                         # parses the buyer RFx, loads the 5 documents
 npm run dev                          # http://localhost:3100
 ```
 
@@ -43,10 +68,20 @@ analyst Q&A will tell you the key is missing rather than returning canned data.
 
 ```bash
 npm run test:pipeline    # 28 assertions on normalisation, matching and refusals — no model calls
-npm run test:match       # deterministic matcher against every vendor description
-npm run eval             # scores extraction against data/ground_truth.json (run npm run extract first)
-npm run eval -- --json   # machine-readable; non-zero exit if a security assertion fails
+npm run test:match       # deterministic matcher against the supplied vendor descriptions
+npm run eval             # scores against the supplied ground truth (run npm run extract first)
+npm run eval -- --json   # machine-readable; non-zero exit on any failure
 ```
+
+`npm run eval` scores against `data/aerchain/eval_question_set.json` and the
+eleven expected behaviours in the dataset README — coverage per vendor, the
+FX-converted line-1 prices, the per-100-pieces normalisation, the split-award
+basket total, the single-vendor totals, the questionnaire gate membership, and
+the adversarial cases that must be refused. Its five deterministic assertions
+need no model and run before extraction has ever happened.
+
+A second, synthetic dataset is kept for regression (`npm run seed:synthetic`,
+`npm run eval:synthetic`, `npm run fixtures`). It is not the demo.
 
 ---
 
@@ -69,18 +104,23 @@ Three separate problems, each handled explicitly:
 ## Layout
 
 ```
-src/lib/ai/          the three loops, their prompts and their schemas
-src/lib/normalize/   matching, currency, unit of measure, the pipeline
-src/lib/query/       the analyst query engine — every number is computed here
-src/lib/security/    file sniffing, CSV sanitisation, signed URLs, the auth gate
-src/lib/db/          libSQL client and schema
-scripts/dataset.ts   the demo dataset — the single source of truth
-scripts/             fixture generation, seeding, extraction, eval, tests
+src/lib/ai/               the three loops, their prompts and their schemas
+src/lib/normalize/        matching, currency, unit of measure, the pipeline
+src/lib/query/            the analyst query engine — every number is computed here
+src/lib/security/         file sniffing, CSV sanitisation, signed URLs, the auth gate
+src/lib/db/               libSQL client and schema
+data/aerchain/            the supplied dataset and its eval question set
+scripts/seed-aerchain.ts  parses the buyer workbook and loads the documents
+scripts/eval-aerchain.ts  scores against the supplied ground truth
+scripts/                  extraction runner, pipeline tests, matcher tests
 ```
 
-`scripts/dataset.ts` generates both the vendor documents **and**
-`data/ground_truth.json`, so the eval harness scores extraction against values
-that provably appear in the source files. They cannot drift.
+One detail worth knowing: the product vocabulary that classifies a line as an
+`rsc`, a `sheet` or a `layer_pad` lives in **one** place
+(`classifyProductType` in `src/lib/normalize/match.ts`) and is used both when
+seeding the buyer's lines and when matching vendor lines. Two copies of that map
+was the original design; they drifted within a day, and every line of the
+affected product types silently stopped matching with no error anywhere.
 
 ## Deploy
 

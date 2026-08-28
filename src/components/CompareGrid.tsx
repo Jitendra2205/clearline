@@ -35,6 +35,8 @@ export interface GridVendor {
   held: number;
   gateCleared: boolean;
   gateDetail: string[];
+  /** What the vendor said about the lines they did not price. */
+  unquotedNote: string | null;
 }
 
 interface Line {
@@ -197,7 +199,23 @@ export default function CompareGrid({
                             no currency stated
                           </Badge>
                         )}
+                        {v.incoterm === null && (
+                          <Badge
+                            tone="warn"
+                            title="No delivery basis stated, so these prices are not comparable with delivered quotes on a landed-cost basis."
+                          >
+                            no incoterm
+                          </Badge>
+                        )}
                       </div>
+                      {v.unquotedNote && (
+                        <p
+                          className="max-w-[170px] text-[10.5px] font-normal normal-case leading-snug tracking-normal text-amber-800"
+                          title={v.unquotedNote}
+                        >
+                          {v.unquotedNote.length > 90 ? `${v.unquotedNote.slice(0, 89)}…` : v.unquotedNote}
+                        </p>
+                      )}
                     </div>
                   </th>
                 ))}

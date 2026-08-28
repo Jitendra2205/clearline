@@ -62,10 +62,10 @@ export function convertCurrency(
       review: { kind: 'currency_not_stated', detail: `Add an FX rate for ${from}/${to}.` },
     };
   }
-  const value = round2(amount * rate.rate);
+  const value = roundInternal(amount * rate.rate);
   return {
     value,
-    note: `converted from ${from} ${amount.toFixed(2)} @ ${rate.rate} (${rate.source}, ${rate.asOf})`,
+    note: `converted from ${from} ${showExact(amount)} @ ${rate.rate} (${rate.source}, ${rate.asOf})`,
     review: null,
   };
 }
@@ -180,8 +180,8 @@ export function convertUom(
   }
 
   return {
-    value: round2(price * f.factor),
-    note: `converted from ${price} per ${from} (${f.note})`,
+    value: roundInternal(price * f.factor),
+    note: `converted from ${showExact(price)} per ${from} (${f.note})`,
     review: null,
   };
 }
@@ -207,6 +207,24 @@ export function priceBandCheck(
     };
   }
   return { ok: true, detail: '' };
+}
+
+/**
+ * Converted unit prices are NOT rounded to paise.
+ *
+ * A USD 0.291 unit rate at 83.50 is ₹24.2985, and rounding that to ₹24.30
+ * before multiplying by an annual quantity of 120,000 moves the line total by
+ * ₹180 — then does it again on the next twenty-nine lines. Rounding belongs at
+ * the display layer, not in the middle of the arithmetic. Six decimal places
+ * is enough to hold the exact value and to absorb binary-float noise.
+ */
+function roundInternal(n: number): number {
+  return Math.round(n * 1e6) / 1e6;
+}
+
+/** Shows the original value at its own precision, without inventing digits. */
+function showExact(n: number): string {
+  return String(Math.round(n * 1e6) / 1e6);
 }
 
 export function round2(n: number): number {

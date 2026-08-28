@@ -72,32 +72,47 @@ export interface ParsedAttrs {
 }
 
 /**
+ * The single product vocabulary.
+ *
+ * Both the RFx seeder and the vendor-line matcher classify through this list,
+ * so a buyer line and a vendor line describing the same thing always land on
+ * the same token. Two separate keyword maps were the original design and they
+ * drifted immediately — the buyer's "Corrugated Sheet Pad" classified as
+ * `sheet` while the vendor's identical wording classified as `layer_pad`, and
+ * every one of those lines silently failed to match.
+ *
  * Order matters: the first pattern to hit wins, so the most specific product
  * names come first. "Book Wrap Mailer" must resolve to book_wrap, not to
- * die_cut_mailer — getting that ordering wrong silently mismatched a line at
- * a confident 0.92 score, which is exactly the failure this system exists to
- * prevent.
+ * die_cut_mailer — that ordering bug once mismatched a line at a confident 0.92.
  */
 const TYPE_KEYWORDS: [string, RegExp][] = [
-  ['book_wrap', /\b(book\s?wrap)\b/i],
-  ['edge_protector', /\b(edge\s?protector|edge\s?protection|l[\s-]?profile)\b/i],
-  ['angle_board', /\b(angle\s?board)\b/i],
-  ['export_box', /\b(export[\s-]?(grade\s+)?(box|carton|container|shipper)|ispm)\b/i],
-  ['ventilated_box', /\b(vent|vented|ventilated)[\s-]*(box|carton|container)?\b/i],
-  ['folding_carton', /\b(folding\s+carton|fold\s+carton)\b/i],
-  ['pallet_cap', /\b(pallet\s?cap)\b/i],
-  ['bin_box', /\b(bin\s?box|stackable)\b/i],
-  ['telescopic', /\b(telescopic|tele\s?box|two[\s-]piece)\b/i],
-  ['partition', /\b(partition|divider|cell)\b/i],
-  ['separator', /\b(separator|sep\s+sheet)\b/i],
-  ['layer_pad', /\b(layer\s?pad|\bpad\b)\b/i],
-  ['die_cut_tray', /\b(die[\s-]?cut\s+tray|diecut\s+tray|tray)\b/i],
-  ['die_cut_insert', /\b(die[\s-]?cut\s+insert|diecut\s+insert|insert)\b/i],
-  ['die_cut_mailer', /\b(die[\s-]?cut\s+mailer|diecut\s+mailer|mailer\s+box|mailer)\b/i],
-  ['roll', /\b(roll|roll\s?stock)\b/i],
-  ['sheet', /\b(corr(ugated)?\s+sheet|flat\s+sheet|\bsheet\b)\b/i],
-  ['rsc', /\b(rsc|regular\s+slotted|shipper|carton|box)\b/i],
+  ['book_wrap', /\bbook\s?wraps?\b/i],
+  ['edge_protector', /\b(edge\s?protector|edge\s?protection|l[\s-]?profile)s?\b/i],
+  ['angle_board', /\bangle\s?boards?\b/i],
+  ['layer_pad', /\b(layer\s?pad|pallet\s+pad|full\s+pallet|half\s+pallet)s?\b/i],
+  ['sheet', /\b(sheet\s?pad|corr(ugated)?\s+sheet|flat\s+sheet|sheet)s?\b/i],
+  ['ventilated_box', /\b(fruit\s+tray|produce\s+tray|vent|vented|ventilated)[\s-]*(box|carton|container|tray)?s?\b/i],
+  ['folding_carton', /\b(folding\s+carton|fold\s+carton|fold\s+box|pizza[\s-]?style|pizza\s+box)s?\b/i],
+  ['export_box', /\b(heavy\s+duty\s+export|export[\s-]?(grade\s+)?(box|carton|container|shipper)|ispm)s?\b/i],
+  ['telescopic', /\b(telescopic|tele\s?box|two[\s-]piece)s?\b/i],
+  ['partition', /\b(partition|divider|\d+[\s-]?cell)s?\b/i],
+  ['pallet_cap', /\bpallet\s?caps?\b/i],
+  ['bin_box', /\b(bin\s?box|stackable)s?\b/i],
+  ['separator', /\b(separator|sep\s+sheet)s?\b/i],
+  ['die_cut_tray', /\b(die[\s-]?cut\s+tray|diecut\s+tray|tray)s?\b/i],
+  ['die_cut_insert', /\b(die[\s-]?cut\s+insert|diecut\s+insert|insert)s?\b/i],
+  ['die_cut_mailer', /\b(die[\s-]?cut\s+mailer|diecut\s+mailer|mailer\s+box|mailer)s?\b/i],
+  ['roll', /\b(roll\s?stock|rolls?)\b/i],
+  ['rsc', /\b(rsc|regular\s+slotted|shipper|carton|box)e?s?\b/i],
 ];
+
+/** Used by the RFx seeder and the matcher alike, so they cannot disagree. */
+export function classifyProductType(text: string): string | null {
+  for (const [type, re] of TYPE_KEYWORDS) {
+    if (re.test(text)) return type;
+  }
+  return null;
+}
 
 export function parseAttrs(raw: string): ParsedAttrs {
   const s = raw.toLowerCase();
@@ -115,15 +130,7 @@ export function parseAttrs(raw: string): ParsedAttrs {
   const gsmMatch = s.match(/(\d{2,4})\s*gsm/);
   const gsm = gsmMatch ? Number(gsmMatch[1]) : null;
 
-  let productType: string | null = null;
-  for (const [type, re] of TYPE_KEYWORDS) {
-    if (re.test(raw)) {
-      productType = type;
-      break;
-    }
-  }
-
-  return { ply, gsm, productType, dimsMm: parseDims(raw) };
+  return { ply, gsm, productType: classifyProductType(raw), dimsMm: parseDims(raw) };
 }
 
 /**
@@ -178,6 +185,9 @@ const W_GSM = 0.08;
 /** Accept threshold for tier 2. Below this the line goes to the model, then to a human. */
 export const FUZZY_ACCEPT = 0.82;
 
+/** A win this narrow is not a win. Below it, the deterministic tier declines. */
+export const AMBIGUITY_MARGIN = 0.06;
+
 export function fuzzyMatch(
   rawDescription: string,
   lines: RfxLineForMatch[],
@@ -186,18 +196,26 @@ export function fuzzyMatch(
   if (attrs.dimsMm.length === 0 && attrs.productType === null) return null;
 
   let best: { line: RfxLineForMatch; score: number; parts: string[] } | null = null;
+  let runnerUp = 0;
 
   for (const line of lines) {
     const parts: string[] = [];
-    // Score is normalised over the attributes that are actually *applicable* to
-    // this pair. A line where neither side states a ply is not evidence against
-    // the match, so it must not drag the score down — that bug silently pushed
-    // perfectly good matches below the accept threshold.
+    // Score is normalised over the attributes actually *comparable* on this
+    // pair. Two rules, both learned the hard way:
+    //
+    //   - Both sides null is agreement, not a gap. Charging weight for it
+    //     pushed perfectly good matches below the accept threshold.
+    //   - One side null is neither agreement nor disagreement — the vendor
+    //     simply did not mention ply in "the 350x250x150mm". Scoring that as a
+    //     mismatch made every prose quotation unmatchable.
+    //
+    // Dimensions are the exception and are handled separately below: there,
+    // one side having them and the other not IS evidence against.
     let score = 0;
     let weight = 0;
 
     // product type
-    if (attrs.productType !== null || line.spec.productType !== null) {
+    if (attrs.productType !== null && line.spec.productType !== null) {
       weight += W_TYPE;
       if (attrs.productType === line.spec.productType) {
         score += W_TYPE;
@@ -210,11 +228,11 @@ export function fuzzyMatch(
     }
 
     // ply
-    if (attrs.ply !== null || line.spec.ply !== null) {
+    if (attrs.ply !== null && line.spec.ply !== null) {
       weight += W_PLY;
       if (attrs.ply === line.spec.ply) {
         score += W_PLY;
-        if (attrs.ply !== null) parts.push(`${attrs.ply}-ply`);
+        parts.push(`${attrs.ply}-ply`);
       }
     }
 
@@ -243,16 +261,28 @@ export function fuzzyMatch(
     }
 
     const normalised = weight === 0 ? 0 : score / weight;
-    if (!best || normalised > best.score) best = { line, score: normalised, parts };
+    if (!best || normalised > best.score) {
+      runnerUp = best ? best.score : runnerUp;
+      best = { line, score: normalised, parts };
+    } else if (normalised > runnerUp) {
+      runnerUp = normalised;
+    }
   }
 
   if (!best || best.score < FUZZY_ACCEPT) return null;
+
+  // Two RFx lines can share dimensions — a 350x250 partition insert and a
+  // 350x250 sheet pad, say. When the vendor's text does not distinguish them,
+  // the deterministic tier must decline rather than pick the first one it
+  // happened to score. Declining sends the line to the model and then to a
+  // human; picking would put a silent coin-flip into the comparison.
+  if (best.score - runnerUp < AMBIGUITY_MARGIN) return null;
 
   return {
     lineId: best.line.id,
     tier: 'fuzzy',
     score: Math.round(best.score * 1000) / 1000,
-    reason: `Matched on ${best.parts.join(', ')} (deterministic score ${best.score.toFixed(2)}).`,
+    reason: `Matched on ${best.parts.join(', ')} (deterministic score ${best.score.toFixed(2)}, next best ${runnerUp.toFixed(2)}).`,
   };
 }
 

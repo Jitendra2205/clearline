@@ -156,11 +156,19 @@ export default async function RfxOverview({ params }: { params: Promise<{ id: st
                   <div className="flex items-start gap-2">
                     <span className="mt-0.5 text-[11px] font-medium text-slate-400">Q{q.q_no}</span>
                     <p className="flex-1 text-[13px] leading-relaxed text-slate-700">{q.question}</p>
-                    {q.gate_json && (
-                      <Badge tone="accent" title="A vendor must answer this correctly to be considered compliant.">
-                        gates
-                      </Badge>
-                    )}
+                    {q.gate_json && (() => {
+                      const g = j.parse<{ requires?: string; minNumeric?: number; unit?: string }>(q.gate_json!, {});
+                      const label =
+                        g.minNumeric !== undefined ? `gates ≥ ${g.minNumeric}${g.unit ?? ''}` : `gates: ${g.requires}`;
+                      return (
+                        <Badge
+                          tone="accent"
+                          title="A vendor must answer this the required way to be considered compliant. No answer is never a pass."
+                        >
+                          {label}
+                        </Badge>
+                      );
+                    })()}
                   </div>
                 </li>
               ))}

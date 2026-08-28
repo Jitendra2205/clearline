@@ -49,8 +49,11 @@ export interface QuestionnaireQuestion {
   qNo: number;
   question: string;
   answerType: 'boolean' | 'text' | 'number';
-  /** If set, this question participates in the pass/fail quality gate. */
-  gate: { requires: string } | null;
+  /**
+   * If set, this question participates in the pass/fail quality gate — either
+   * as a yes/no answer or as a numeric threshold (e.g. on-time delivery >= 90%).
+   */
+  gate: { requires: string } | { minNumeric: number; unit?: string } | null;
 }
 
 export interface Vendor {
@@ -158,7 +161,8 @@ export interface ReviewItem {
     | 'semantic_match_unconfirmed'
     | 'price_outside_band'
     | 'snippet_mismatch'
-    | 'unmatched_line';
+    | 'unmatched_line'
+    | 'incoterm_not_stated';
   detail: string;
   status: ReviewStatus;
   resolution: string | null;
