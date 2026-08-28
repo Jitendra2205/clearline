@@ -1,0 +1,8 @@
+
+# build artefacts not needed in the image
+node_modules
+.next
+.git
+.env.local
+data/*.db
+docs

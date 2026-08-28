@@ -1,0 +1,34 @@
+# Render blueprint. Push this repo to GitHub, then in Render:
+#   New > Blueprint > pick the repo. It reads this file.
+#
+# Set ANTHROPIC_API_KEY in the Render dashboard (never in this file — it is
+# committed). CLEARLINE_PASSWORD gates the whole app; set it to something you
+# are happy to put in an email alongside the link.
+#
+# The disk mounts at /var/data, NOT at /app/data — /app/data holds the vendor
+# document fixtures baked into the image, and a mount there would hide them.
+
+services:
+  - type: web
+    name: clearline
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter # a persistent disk requires a paid instance type on Render
+    healthCheckPath: /
+    disk:
+      name: clearline-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: LIBSQL_URL
+        value: file:/var/data/clearline.db
+      - key: ANTHROPIC_API_KEY
+        sync: false # set in the dashboard
+      - key: CLEARLINE_PASSWORD
+        sync: false
+      - key: CLEARLINE_SIGNING_KEY
+        generateValue: true
+      - key: CLEARLINE_MODEL
+        value: claude-opus-5
+      - key: NODE_ENV
+        value: production

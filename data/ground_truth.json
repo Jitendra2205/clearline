@@ -1,0 +1,1961 @@
+{
+  "rfx": {
+    "title": "FY26 Corrugated Packaging — Bangalore & Pune Plants",
+    "category": "Corrugated packaging",
+    "baseCurrency": "INR",
+    "deliveryLocation": "Bangalore (Plant 1) and Pune (Plant 3), India",
+    "incoterm": "DDP buyer plant preferred; ex-works acceptable with freight stated separately",
+    "paymentTerms": "Net 45 days from date of invoice",
+    "closesAt": "2026-09-12"
+  },
+  "lines": [
+    {
+      "code": "CP-001",
+      "description": "RSC shipper, 3-ply, 305 x 229 x 152 mm, 120 GSM virgin kraft, plain",
+      "spec": {
+        "productType": "rsc",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "virgin kraft",
+        "lengthMm": 305,
+        "widthMm": 229,
+        "heightMm": 152,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 240000,
+      "basePrice": 14.2
+    },
+    {
+      "code": "CP-002",
+      "description": "RSC shipper, 3-ply, 400 x 300 x 200 mm, 140 GSM kraft, plain",
+      "spec": {
+        "productType": "rsc",
+        "ply": 3,
+        "gsm": 140,
+        "boardGrade": "kraft",
+        "lengthMm": 400,
+        "widthMm": 300,
+        "heightMm": 200,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 180000,
+      "basePrice": 21.8
+    },
+    {
+      "code": "CP-003",
+      "description": "RSC shipper, 3-ply, 450 x 300 x 200 mm, 140 GSM kraft, plain",
+      "spec": {
+        "productType": "rsc",
+        "ply": 3,
+        "gsm": 140,
+        "boardGrade": "kraft",
+        "lengthMm": 450,
+        "widthMm": 300,
+        "heightMm": 200,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 150000,
+      "basePrice": 24.6
+    },
+    {
+      "code": "CP-004",
+      "description": "RSC shipper, 5-ply, 450 x 300 x 200 mm, 150 GSM semi-kraft",
+      "spec": {
+        "productType": "rsc",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 450,
+        "widthMm": 300,
+        "heightMm": 200,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 120000,
+      "basePrice": 38.4
+    },
+    {
+      "code": "CP-005",
+      "description": "RSC shipper, 5-ply, 500 x 400 x 300 mm, 150 GSM semi-kraft",
+      "spec": {
+        "productType": "rsc",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 500,
+        "widthMm": 400,
+        "heightMm": 300,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 96000,
+      "basePrice": 52.9
+    },
+    {
+      "code": "CP-006",
+      "description": "RSC shipper, 5-ply, 600 x 400 x 400 mm, 180 GSM kraft",
+      "spec": {
+        "productType": "rsc",
+        "ply": 5,
+        "gsm": 180,
+        "boardGrade": "kraft",
+        "lengthMm": 600,
+        "widthMm": 400,
+        "heightMm": 400,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 72000,
+      "basePrice": 68.5
+    },
+    {
+      "code": "CP-007",
+      "description": "RSC heavy duty shipper, 7-ply, 800 x 600 x 600 mm, 180 GSM kraft",
+      "spec": {
+        "productType": "rsc",
+        "ply": 7,
+        "gsm": 180,
+        "boardGrade": "kraft",
+        "lengthMm": 800,
+        "widthMm": 600,
+        "heightMm": 600,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 24000,
+      "basePrice": 142
+    },
+    {
+      "code": "CP-008",
+      "description": "Die-cut mailer box, 3-ply, 250 x 180 x 60 mm, 120 GSM",
+      "spec": {
+        "productType": "die_cut_mailer",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": 250,
+        "widthMm": 180,
+        "heightMm": 60,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 300000,
+      "basePrice": 9.75
+    },
+    {
+      "code": "CP-009",
+      "description": "Die-cut mailer box, 3-ply, 320 x 240 x 80 mm, 120 GSM",
+      "spec": {
+        "productType": "die_cut_mailer",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": 320,
+        "widthMm": 240,
+        "heightMm": 80,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 200000,
+      "basePrice": 13.4
+    },
+    {
+      "code": "CP-010",
+      "description": "Die-cut tray, 5-ply, 400 x 300 x 100 mm, 150 GSM",
+      "spec": {
+        "productType": "die_cut_tray",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 400,
+        "widthMm": 300,
+        "heightMm": 100,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 80000,
+      "basePrice": 26.3
+    },
+    {
+      "code": "CP-011",
+      "description": "Telescopic two-piece box, 5-ply, 900 x 300 x 300 mm",
+      "spec": {
+        "productType": "telescopic",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 900,
+        "widthMm": 300,
+        "heightMm": 300,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 36000,
+      "basePrice": 74.2
+    },
+    {
+      "code": "CP-012",
+      "description": "Corrugated partition set, 3-ply, 6-cell, to suit CP-004",
+      "spec": {
+        "productType": "partition",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": 450,
+        "widthMm": 300,
+        "heightMm": 200,
+        "print": null,
+        "notes": "6-cell divider set"
+      },
+      "uom": "set",
+      "annualQty": 120000,
+      "basePrice": 11.6
+    },
+    {
+      "code": "CP-013",
+      "description": "Corrugated partition set, 3-ply, 12-cell, to suit CP-005",
+      "spec": {
+        "productType": "partition",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": 500,
+        "widthMm": 400,
+        "heightMm": 300,
+        "print": null,
+        "notes": "12-cell divider set"
+      },
+      "uom": "set",
+      "annualQty": 60000,
+      "basePrice": 18.9
+    },
+    {
+      "code": "CP-014",
+      "description": "Corrugated sheet, 3-ply, 1200 x 800 mm, 140 GSM",
+      "spec": {
+        "productType": "sheet",
+        "ply": 3,
+        "gsm": 140,
+        "boardGrade": "kraft",
+        "lengthMm": 1200,
+        "widthMm": 800,
+        "heightMm": null,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 90000,
+      "basePrice": 17.25
+    },
+    {
+      "code": "CP-015",
+      "description": "Corrugated sheet, 5-ply, 1200 x 800 mm, 150 GSM",
+      "spec": {
+        "productType": "sheet",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 1200,
+        "widthMm": 800,
+        "heightMm": null,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 60000,
+      "basePrice": 28.7
+    },
+    {
+      "code": "CP-016",
+      "description": "Corrugated roll, 2-ply, 1000 mm width, 120 GSM",
+      "spec": {
+        "productType": "roll",
+        "ply": 2,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": null,
+        "widthMm": 1000,
+        "heightMm": null,
+        "print": null,
+        "notes": null
+      },
+      "uom": "kg",
+      "annualQty": 48000,
+      "basePrice": 46.5
+    },
+    {
+      "code": "CP-017",
+      "description": "Corrugated roll, 2-ply, 1200 mm width, 120 GSM",
+      "spec": {
+        "productType": "roll",
+        "ply": 2,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": null,
+        "widthMm": 1200,
+        "heightMm": null,
+        "print": null,
+        "notes": null
+      },
+      "uom": "kg",
+      "annualQty": 36000,
+      "basePrice": 45.8
+    },
+    {
+      "code": "CP-018",
+      "description": "Layer pad, 3-ply, 1150 x 950 mm, 140 GSM",
+      "spec": {
+        "productType": "layer_pad",
+        "ply": 3,
+        "gsm": 140,
+        "boardGrade": "kraft",
+        "lengthMm": 1150,
+        "widthMm": 950,
+        "heightMm": null,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 110000,
+      "basePrice": 19.4
+    },
+    {
+      "code": "CP-019",
+      "description": "Edge protector, L-profile 50 x 50 x 3 mm, 2000 mm length",
+      "spec": {
+        "productType": "edge_protector",
+        "ply": null,
+        "gsm": null,
+        "boardGrade": "laminated board",
+        "lengthMm": 2000,
+        "widthMm": 50,
+        "heightMm": 50,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 140000,
+      "basePrice": 22.1
+    },
+    {
+      "code": "CP-020",
+      "description": "Angle board, 60 x 60 x 5 mm, 1800 mm length",
+      "spec": {
+        "productType": "angle_board",
+        "ply": null,
+        "gsm": null,
+        "boardGrade": "laminated board",
+        "lengthMm": 1800,
+        "widthMm": 60,
+        "heightMm": 60,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 70000,
+      "basePrice": 27.6
+    },
+    {
+      "code": "CP-021",
+      "description": "RSC shipper, 5-ply, 355 x 355 x 355 mm, 2-colour flexo print",
+      "spec": {
+        "productType": "rsc",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 355,
+        "widthMm": 355,
+        "heightMm": 355,
+        "print": "2-colour flexo",
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 84000,
+      "basePrice": 44.8
+    },
+    {
+      "code": "CP-022",
+      "description": "RSC shipper, 3-ply, 380 x 280 x 180 mm, 1-colour flexo print",
+      "spec": {
+        "productType": "rsc",
+        "ply": 3,
+        "gsm": 140,
+        "boardGrade": "kraft",
+        "lengthMm": 380,
+        "widthMm": 280,
+        "heightMm": 180,
+        "print": "1-colour flexo",
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 130000,
+      "basePrice": 23.15
+    },
+    {
+      "code": "CP-023",
+      "description": "Export shipper, 7-ply, 1140 x 760 x 760 mm, ISPM-15 compliant pallet fit",
+      "spec": {
+        "productType": "export_box",
+        "ply": 7,
+        "gsm": 180,
+        "boardGrade": "kraft",
+        "lengthMm": 1140,
+        "widthMm": 760,
+        "heightMm": 760,
+        "print": null,
+        "notes": "ISPM-15 compliant"
+      },
+      "uom": "piece",
+      "annualQty": 12000,
+      "basePrice": 268
+    },
+    {
+      "code": "CP-024",
+      "description": "Ventilated produce box, 5-ply, 400 x 300 x 140 mm, wax-free",
+      "spec": {
+        "productType": "ventilated_box",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 400,
+        "widthMm": 300,
+        "heightMm": 140,
+        "print": null,
+        "notes": "ventilation slots"
+      },
+      "uom": "piece",
+      "annualQty": 160000,
+      "basePrice": 31.2
+    },
+    {
+      "code": "CP-025",
+      "description": "Folding carton, 3-ply, 300 x 300 x 40 mm, food-grade liner",
+      "spec": {
+        "productType": "folding_carton",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "food-grade kraft",
+        "lengthMm": 300,
+        "widthMm": 300,
+        "heightMm": 40,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 220000,
+      "basePrice": 15.9
+    },
+    {
+      "code": "CP-026",
+      "description": "Corrugated pallet cap, 3-ply, 1200 x 1000 mm",
+      "spec": {
+        "productType": "pallet_cap",
+        "ply": 3,
+        "gsm": 140,
+        "boardGrade": "kraft",
+        "lengthMm": 1200,
+        "widthMm": 1000,
+        "heightMm": null,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 55000,
+      "basePrice": 24.8
+    },
+    {
+      "code": "CP-027",
+      "description": "Stackable bin box, 5-ply, 600 x 400 x 220 mm",
+      "spec": {
+        "productType": "bin_box",
+        "ply": 5,
+        "gsm": 150,
+        "boardGrade": "semi-kraft",
+        "lengthMm": 600,
+        "widthMm": 400,
+        "heightMm": 220,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 65000,
+      "basePrice": 41.6
+    },
+    {
+      "code": "CP-028",
+      "description": "Book wrap mailer, 3-ply, 330 x 250 x 80 mm",
+      "spec": {
+        "productType": "book_wrap",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": 330,
+        "widthMm": 250,
+        "heightMm": 80,
+        "print": null,
+        "notes": null
+      },
+      "uom": "piece",
+      "annualQty": 175000,
+      "basePrice": 12.85
+    },
+    {
+      "code": "CP-029",
+      "description": "Custom die-cut insert, 3-ply, per drawing DWG-2291",
+      "spec": {
+        "productType": "die_cut_insert",
+        "ply": 3,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": null,
+        "widthMm": null,
+        "heightMm": null,
+        "print": null,
+        "notes": "per drawing DWG-2291"
+      },
+      "uom": "piece",
+      "annualQty": 95000,
+      "basePrice": 16.7
+    },
+    {
+      "code": "CP-030",
+      "description": "Separator sheet, 2-ply, 590 x 390 mm",
+      "spec": {
+        "productType": "separator",
+        "ply": 2,
+        "gsm": 120,
+        "boardGrade": "kraft",
+        "lengthMm": 590,
+        "widthMm": 390,
+        "heightMm": null,
+        "print": null,
+        "notes": null
+      },
+      "uom": "100_pieces",
+      "annualQty": 4200,
+      "basePrice": 340
+    }
+  ],
+  "questions": [
+    {
+      "qNo": 1,
+      "question": "Are you ISO 9001:2015 certified? State certificate number and expiry.",
+      "answerType": "boolean",
+      "gate": {
+        "requires": "yes"
+      }
+    },
+    {
+      "qNo": 2,
+      "question": "Do you hold FSC or PEFC chain-of-custody certification?",
+      "answerType": "boolean",
+      "gate": null
+    },
+    {
+      "qNo": 3,
+      "question": "Do you supply burst-strength / ECT test reports with every production lot?",
+      "answerType": "boolean",
+      "gate": {
+        "requires": "yes"
+      }
+    },
+    {
+      "qNo": 4,
+      "question": "What is your standard lead time for repeat orders, in days?",
+      "answerType": "number",
+      "gate": null
+    },
+    {
+      "qNo": 5,
+      "question": "What is your maximum monthly production capacity, in pieces?",
+      "answerType": "number",
+      "gate": null
+    },
+    {
+      "qNo": 6,
+      "question": "Do you offer vendor-managed inventory at the buyer plant?",
+      "answerType": "boolean",
+      "gate": null
+    },
+    {
+      "qNo": 7,
+      "question": "Do you hold food-grade (BRCGS Packaging or equivalent) certification?",
+      "answerType": "boolean",
+      "gate": null
+    },
+    {
+      "qNo": 8,
+      "question": "What payment terms do you offer?",
+      "answerType": "text",
+      "gate": null
+    }
+  ],
+  "quotes": [
+    {
+      "vendorKey": "sristi",
+      "vendorName": "Sristi Packaging Pvt Ltd",
+      "format": "xlsx",
+      "filename": "sristi-quotation.xlsx",
+      "currency": "INR",
+      "incoterm": "Ex-works Hosur",
+      "validity": "90 days from date of offer",
+      "paymentTerms": "45 days from invoice",
+      "lines": [
+        {
+          "rfxCode": "CP-001",
+          "vendorDescription": "3ply RSC CARTON 30.5 x 22.9 x 15.2 cm 120gsm",
+          "rawPrice": "14.59",
+          "price": 14.59,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 14.59,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-002",
+          "vendorDescription": "3ply RSC CARTON 40 x 30 x 20 cm 140gsm",
+          "rawPrice": "20.55",
+          "price": 20.55,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 20.55,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-003",
+          "vendorDescription": "3ply RSC CARTON 45 x 30 x 20 cm 140gsm",
+          "rawPrice": "24.47",
+          "price": 24.47,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 24.47,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-004",
+          "vendorDescription": "5ply RSC CARTON 45 x 30 x 20 cm 150gsm",
+          "rawPrice": "39.96",
+          "price": 39.96,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 39.96,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-005",
+          "vendorDescription": "5ply RSC CARTON 50 x 40 x 30 cm 150gsm",
+          "rawPrice": "50.55",
+          "price": 50.55,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 50.55,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-006",
+          "vendorDescription": "5ply RSC CARTON 60 x 40 x 40 cm 180gsm",
+          "rawPrice": "69.04",
+          "price": 69.04,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 69.04,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-007",
+          "vendorDescription": "7ply RSC CARTON 80 x 60 x 60 cm 180gsm",
+          "rawPrice": "131.06",
+          "price": 131.06,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 131.06,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-008",
+          "vendorDescription": "3ply DIECUT MAILER 25 x 18 x 6 cm 120gsm",
+          "rawPrice": "472.00",
+          "price": 472,
+          "rawUom": "per box",
+          "expectedNormalizedInr": null,
+          "expectedReview": "uom_not_convertible"
+        },
+        {
+          "rfxCode": "CP-009",
+          "vendorDescription": "3ply DIECUT MAILER 32 x 24 x 8 cm 120gsm",
+          "rawPrice": "13.68",
+          "price": 13.68,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 13.68,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-010",
+          "vendorDescription": "5ply DIECUT TRAY 40 x 30 x 10 cm 150gsm",
+          "rawPrice": "25.50",
+          "price": 25.5,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 25.5,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-011",
+          "vendorDescription": "5ply TELESCOPIC BOX 90 x 30 x 30 cm 150gsm",
+          "rawPrice": "68.06",
+          "price": 68.06,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 68.06,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-012",
+          "vendorDescription": "3ply PARTITION SET 45 x 30 x 20 cm 120gsm",
+          "rawPrice": "11.63",
+          "price": 11.63,
+          "rawUom": "per set",
+          "expectedNormalizedInr": 11.63,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-013",
+          "vendorDescription": "3ply PARTITION SET 50 x 40 x 30 cm 120gsm",
+          "rawPrice": "17.95",
+          "price": 17.95,
+          "rawUom": "per set",
+          "expectedNormalizedInr": 17.95,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-014",
+          "vendorDescription": "3ply CORR SHEET 120 x 80 cm 140gsm",
+          "rawPrice": "17.85",
+          "price": 17.85,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 17.85,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-015",
+          "vendorDescription": "5ply CORR SHEET 120 x 80 cm 150gsm",
+          "rawPrice": "28.20",
+          "price": 28.2,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 28.2,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-016",
+          "vendorDescription": "2ply CORR ROLL 100 cm 120gsm",
+          "rawPrice": "43260.00",
+          "price": 43260,
+          "rawUom": "per MT",
+          "expectedNormalizedInr": 43.26,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-017",
+          "vendorDescription": "2ply CORR ROLL 120 cm 120gsm",
+          "rawPrice": "46500.00",
+          "price": 46500,
+          "rawUom": "per MT",
+          "expectedNormalizedInr": 46.5,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-018",
+          "vendorDescription": "3ply LAYER PAD 115 x 95 cm 140gsm",
+          "rawPrice": "18.68",
+          "price": 18.68,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 18.68,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-019",
+          "vendorDescription": "EDGE PROTECTOR 200 x 5 x 5 cm",
+          "rawPrice": "23.16",
+          "price": 23.16,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 23.16,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-020",
+          "vendorDescription": "ANGLE BOARD 180 x 6 x 6 cm",
+          "rawPrice": "25.47",
+          "price": 25.47,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 25.47,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-021",
+          "vendorDescription": "5ply RSC CARTON 35.5 x 35.5 x 35.5 cm 150gsm",
+          "rawPrice": "43.68",
+          "price": 43.68,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 43.68,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-022",
+          "vendorDescription": "3ply RSC CARTON 38 x 28 x 18 cm 140gsm",
+          "rawPrice": "22.12",
+          "price": 22.12,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 22.12,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-023",
+          "vendorDescription": "7ply EXPORT CARTON 114 x 76 x 76 cm 180gsm",
+          "rawPrice": "270.07",
+          "price": 270.07,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 270.07,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-024",
+          "vendorDescription": "5ply VENTED CARTON 40 x 30 x 14 cm 150gsm",
+          "rawPrice": "30.83",
+          "price": 30.83,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 30.83,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-025",
+          "vendorDescription": "3ply FOLDING CARTON 30 x 30 x 4 cm 120gsm",
+          "rawPrice": "16.54",
+          "price": 16.54,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 16.54,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-026",
+          "vendorDescription": "3ply PALLET CAP 120 x 100 cm 140gsm",
+          "rawPrice": "25.31",
+          "price": 25.31,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 25.31,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-027",
+          "vendorDescription": "5ply BIN BOX 60 x 40 x 22 cm 150gsm",
+          "rawPrice": "38.93",
+          "price": 38.93,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 38.93,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-028",
+          "vendorDescription": "3ply BOOK WRAP 33 x 25 x 8 cm 120gsm",
+          "rawPrice": "11.94",
+          "price": 11.94,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 11.94,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-029",
+          "vendorDescription": "3ply DIECUT INSERT  cm 120gsm",
+          "rawPrice": "16.39",
+          "price": 16.39,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 16.39,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-030",
+          "vendorDescription": "2ply SEPARATOR SHEET 59 x 39 cm 120gsm",
+          "rawPrice": "322.66",
+          "price": 322.66,
+          "rawUom": "per 100 pcs",
+          "expectedNormalizedInr": 322.66,
+          "expectedReview": null
+        }
+      ],
+      "notQuoted": [],
+      "answers": [
+        {
+          "qNo": 1,
+          "answer": "Yes — ISO 9001:2015, cert QMS/IN/22/4471, valid to 14 Mar 2027"
+        },
+        {
+          "qNo": 2,
+          "answer": "Yes — FSC Mix, COC-841203"
+        },
+        {
+          "qNo": 3,
+          "answer": "Yes, with every lot"
+        },
+        {
+          "qNo": 4,
+          "answer": "12"
+        },
+        {
+          "qNo": 5,
+          "answer": "4200000"
+        },
+        {
+          "qNo": 6,
+          "answer": "Yes, at Bangalore plant only"
+        },
+        {
+          "qNo": 7,
+          "answer": "Yes — BRCGS Packaging AA grade"
+        },
+        {
+          "qNo": 8,
+          "answer": "45 days from invoice"
+        }
+      ],
+      "commercialNotes": [
+        {
+          "kind": "discount",
+          "text": "Volume rebate of 2% on any line where annual offtake exceeds 200,000 pieces.",
+          "percent": 2
+        },
+        {
+          "kind": "condition",
+          "text": "Prices firm for 90 days from date of offer. GST extra at applicable rate.",
+          "percent": null
+        }
+      ],
+      "expectedIllegible": []
+    },
+    {
+      "vendorKey": "nova",
+      "vendorName": "Nova Corrugators Ltd",
+      "format": "pdf",
+      "filename": "nova-quotation.pdf",
+      "currency": "INR",
+      "incoterm": "Ex-works Hosur",
+      "validity": "60 days",
+      "paymentTerms": "30 days from invoice, 3% if settled in 15 days",
+      "lines": [
+        {
+          "rfxCode": "CP-001",
+          "vendorDescription": "3 Ply Regular Slotted Container — 305x229x152 mm",
+          "rawPrice": "Rs. 14.74",
+          "price": 14.74,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 14.74,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-002",
+          "vendorDescription": "3 Ply Regular Slotted Container — 400x300x200 mm",
+          "rawPrice": "Rs. 23.86",
+          "price": 23.86,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 23.86,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-003",
+          "vendorDescription": "3 Ply Regular Slotted Container — 450x300x200 mm",
+          "rawPrice": "Rs. 24.66",
+          "price": 24.66,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 24.66,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-004",
+          "vendorDescription": "5 Ply Regular Slotted Container — 450x300x200 mm",
+          "rawPrice": "Rs. 40.39",
+          "price": 40.39,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 40.39,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-005",
+          "vendorDescription": "5 Ply Regular Slotted Container — 500x400x300 mm",
+          "rawPrice": "Rs. 58.63",
+          "price": 58.63,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 58.63,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-006",
+          "vendorDescription": "5 Ply Regular Slotted Container — 600x400x400 mm",
+          "rawPrice": "Rs. 69.63",
+          "price": 69.63,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 69.63,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-007",
+          "vendorDescription": "7 Ply Regular Slotted Container — 800x600x600 mm",
+          "rawPrice": "Rs. 152.37",
+          "price": 152.37,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 152.37,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-008",
+          "vendorDescription": "3 Ply Die Cut Mailer — 250x180x60 mm",
+          "rawPrice": "Rs. 9.64",
+          "price": 9.64,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 9.64,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-009",
+          "vendorDescription": "3 Ply Die Cut Mailer — 320x240x80 mm",
+          "rawPrice": "Rs. 14.00",
+          "price": 14,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 14,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-010",
+          "vendorDescription": "5 Ply Die Cut Tray — 400x300x100 mm",
+          "rawPrice": "Rs. 26.55",
+          "price": 26.55,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 26.55,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-011",
+          "vendorDescription": "5 Ply Telescopic Container — 900x300x300 mm",
+          "rawPrice": "Rs. 81.72",
+          "price": 81.72,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 81.72,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-012",
+          "vendorDescription": "3 Ply Partition / Divider — 450x300x200 mm",
+          "rawPrice": "Rs. 12.12",
+          "price": 12.12,
+          "rawUom": "Per Set",
+          "expectedNormalizedInr": 12.12,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-013",
+          "vendorDescription": "3 Ply Partition / Divider — 500x400x300 mm",
+          "rawPrice": "Rs. 18.68",
+          "price": 18.68,
+          "rawUom": "Per Set",
+          "expectedNormalizedInr": 18.68,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-014",
+          "vendorDescription": "3 Ply Corrugated Sheet — 1200x800 mm",
+          "rawPrice": "Rs. 18.63",
+          "price": 18.63,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 18.63,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-015",
+          "vendorDescription": "5 Ply Corrugated Sheet — 1200x800 mm",
+          "rawPrice": "Rs. 29.38",
+          "price": 29.38,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 29.38,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-016",
+          "vendorDescription": "2 Ply Corrugated Roll — 1000 mm",
+          "rawPrice": "Rs. 51.87",
+          "price": 51.87,
+          "rawUom": "Per Kg",
+          "expectedNormalizedInr": 51.87,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-017",
+          "vendorDescription": "2 Ply Corrugated Roll — 1200 mm",
+          "rawPrice": "Rs. 48.50",
+          "price": 48.5,
+          "rawUom": "Per Kg",
+          "expectedNormalizedInr": 48.5,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-018",
+          "vendorDescription": "3 Ply Layer Pad — 1150x950 mm",
+          "rawPrice": "Rs. 19.72",
+          "price": 19.72,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 19.72,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-021",
+          "vendorDescription": "5 Ply Regular Slotted Container — 355x355x355 mm, 2-colour flexo",
+          "rawPrice": "Rs. 46.77",
+          "price": 46.77,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 46.77,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-022",
+          "vendorDescription": "3 Ply Regular Slotted Container — 380x280x180 mm, 1-colour flexo",
+          "rawPrice": "Rs. 23.68",
+          "price": 23.68,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 23.68,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-023",
+          "vendorDescription": "7 Ply Export Container — 1140x760x760 mm",
+          "rawPrice": "Rs. 289.25",
+          "price": 289.25,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 289.25,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-024",
+          "vendorDescription": "5 Ply Ventilated Container — 400x300x140 mm",
+          "rawPrice": "Rs. 33.01",
+          "price": 33.01,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 33.01,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-025",
+          "vendorDescription": "3 Ply Folding Carton — 300x300x40 mm",
+          "rawPrice": "Rs. 17.72",
+          "price": 17.72,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 17.72,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-026",
+          "vendorDescription": "3 Ply Pallet Cap — 1200x1000 mm",
+          "rawPrice": "Rs. 27.12",
+          "price": 27.12,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 27.12,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-027",
+          "vendorDescription": "5 Ply Bin Box — 600x400x220 mm",
+          "rawPrice": "Rs. 41.66",
+          "price": 41.66,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 41.66,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-028",
+          "vendorDescription": "3 Ply Book Wrap Mailer — 330x250x80 mm",
+          "rawPrice": "Rs. 14.50",
+          "price": 14.5,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 14.5,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-029",
+          "vendorDescription": "3 Ply Die Cut Insert —  mm",
+          "rawPrice": "Rs. 17.32",
+          "price": 17.32,
+          "rawUom": "Per Piece",
+          "expectedNormalizedInr": 17.32,
+          "expectedReview": null
+        }
+      ],
+      "notQuoted": [
+        "CP-019",
+        "CP-020",
+        "CP-030"
+      ],
+      "answers": [
+        {
+          "qNo": 1,
+          "answer": "Yes — ISO 9001:2015, cert 01 100 084221, valid to 09 Aug 2026"
+        },
+        {
+          "qNo": 2,
+          "answer": "Yes — PEFC/24-31-88"
+        },
+        {
+          "qNo": 3,
+          "answer": "Yes, burst and ECT per lot"
+        },
+        {
+          "qNo": 4,
+          "answer": "10"
+        },
+        {
+          "qNo": 5,
+          "answer": "5800000"
+        },
+        {
+          "qNo": 6,
+          "answer": "Yes"
+        },
+        {
+          "qNo": 7,
+          "answer": "No"
+        },
+        {
+          "qNo": 8,
+          "answer": "30 days from invoice, 3% if settled in 15 days"
+        }
+      ],
+      "commercialNotes": [
+        {
+          "kind": "discount",
+          "text": "A settlement discount of 3% applies to all lines if payment is received within 15 days of invoice.",
+          "percent": 3
+        },
+        {
+          "kind": "discount",
+          "text": "An additional 2.5% rebate applies to lines 1 to 10 where annual volume exceeds 200,000 units.",
+          "percent": 2.5
+        },
+        {
+          "kind": "condition",
+          "text": "All prices ex-works Hosur. Freight to buyer plant charged at actuals.",
+          "percent": null
+        }
+      ],
+      "expectedIllegible": []
+    },
+    {
+      "vendorKey": "kraftline",
+      "vendorName": "Kraftline Industries",
+      "format": "docx",
+      "filename": "kraftline-offer.docx",
+      "currency": "INR",
+      "incoterm": "DDP Bangalore plant",
+      "validity": "45 days",
+      "paymentTerms": "60 days from date of invoice",
+      "lines": [
+        {
+          "rfxCode": "CP-001",
+          "vendorDescription": "three ply regular slotted carton, size 305 × 229 × 152 millimetre",
+          "rawPrice": "Rs 14.82",
+          "price": 14.82,
+          "rawUom": "each",
+          "expectedNormalizedInr": 14.82,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-002",
+          "vendorDescription": "three ply regular slotted carton, size 400 × 300 × 200 millimetre",
+          "rawPrice": "Rs 20.83",
+          "price": 20.83,
+          "rawUom": "each",
+          "expectedNormalizedInr": 20.83,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-003",
+          "vendorDescription": "three ply regular slotted carton, size 450 × 300 × 200 millimetre",
+          "rawPrice": "Rs 24.84",
+          "price": 24.84,
+          "rawUom": "each",
+          "expectedNormalizedInr": 24.84,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-004",
+          "vendorDescription": "five ply regular slotted carton, size 450 × 300 × 200 millimetre",
+          "rawPrice": "Rs 40.86",
+          "price": 40.86,
+          "rawUom": "each",
+          "expectedNormalizedInr": 40.86,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-005",
+          "vendorDescription": "five ply regular slotted carton, size 500 × 400 × 300 millimetre",
+          "rawPrice": "Rs 51.62",
+          "price": 51.62,
+          "rawUom": "each",
+          "expectedNormalizedInr": 51.62,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-006",
+          "vendorDescription": "five ply regular slotted carton, size 600 × 400 × 400 millimetre",
+          "rawPrice": "Rs 70.56",
+          "price": 70.56,
+          "rawUom": "each",
+          "expectedNormalizedInr": 70.56,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-007",
+          "vendorDescription": "seven ply regular slotted carton, size 800 × 600 × 600 millimetre",
+          "rawPrice": "Rs 154.01",
+          "price": 154.01,
+          "rawUom": "each",
+          "expectedNormalizedInr": 154.01,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-008",
+          "vendorDescription": "three ply die-cut mailer carton, size 250 × 180 × 60 millimetre",
+          "rawPrice": "Rs 9.71",
+          "price": 9.71,
+          "rawUom": "each",
+          "expectedNormalizedInr": 9.71,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-009",
+          "vendorDescription": "three ply die-cut mailer carton, size 320 × 240 × 80 millimetre",
+          "rawPrice": "Rs 14.08",
+          "price": 14.08,
+          "rawUom": "each",
+          "expectedNormalizedInr": 14.08,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-010",
+          "vendorDescription": "five ply die-cut tray, size 400 × 300 × 100 millimetre",
+          "rawPrice": "Rs 26.74",
+          "price": 26.74,
+          "rawUom": "each",
+          "expectedNormalizedInr": 26.74,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-011",
+          "vendorDescription": "five ply two-piece telescopic carton, size 900 × 300 × 300 millimetre",
+          "rawPrice": "Rs 71.39",
+          "price": 71.39,
+          "rawUom": "each",
+          "expectedNormalizedInr": 71.39,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-012",
+          "vendorDescription": "three ply divider set, size 450 × 300 × 200 millimetre",
+          "rawPrice": "Rs 12.19",
+          "price": 12.19,
+          "rawUom": "per set",
+          "expectedNormalizedInr": 12.19,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-013",
+          "vendorDescription": "three ply divider set, size 500 × 400 × 300 millimetre",
+          "rawPrice": "Rs 18.83",
+          "price": 18.83,
+          "rawUom": "per set",
+          "expectedNormalizedInr": 18.83,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-014",
+          "vendorDescription": "three ply flat corrugated sheet, size 1200 × 800 millimetre",
+          "rawPrice": "Rs 16.36",
+          "price": 16.36,
+          "rawUom": "each",
+          "expectedNormalizedInr": 16.36,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-015",
+          "vendorDescription": "five ply flat corrugated sheet, size 1200 × 800 millimetre",
+          "rawPrice": "Rs 29.76",
+          "price": 29.76,
+          "rawUom": "each",
+          "expectedNormalizedInr": 29.76,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-016",
+          "vendorDescription": "two ply corrugated roll stock, size 1000 millimetre",
+          "rawPrice": "Rs 45.69",
+          "price": 45.69,
+          "rawUom": "per kilogram",
+          "expectedNormalizedInr": 45.69,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-017",
+          "vendorDescription": "two ply corrugated roll stock, size 1200 millimetre",
+          "rawPrice": "Rs 49.05",
+          "price": 49.05,
+          "rawUom": "per kilogram",
+          "expectedNormalizedInr": 49.05,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-018",
+          "vendorDescription": "three ply layer pad, size 1150 × 950 millimetre",
+          "rawPrice": "Rs 19.85",
+          "price": 19.85,
+          "rawUom": "each",
+          "expectedNormalizedInr": 19.85,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-019",
+          "vendorDescription": "edge protection profile, size 2000 × 50 × 50 millimetre",
+          "rawPrice": "Rs 21.42",
+          "price": 21.42,
+          "rawUom": "each",
+          "expectedNormalizedInr": 21.42,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-020",
+          "vendorDescription": "angle board profile, size 1800 × 60 × 60 millimetre",
+          "rawPrice": "Rs 27.47",
+          "price": 27.47,
+          "rawUom": "each",
+          "expectedNormalizedInr": 27.47,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-021",
+          "vendorDescription": "five ply regular slotted carton, size 355 × 355 × 355 millimetre",
+          "rawPrice": "Rs 47.03",
+          "price": 47.03,
+          "rawUom": "each",
+          "expectedNormalizedInr": 47.03,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-022",
+          "vendorDescription": "three ply regular slotted carton, size 380 × 280 × 180 millimetre",
+          "rawPrice": "Rs 23.83",
+          "price": 23.83,
+          "rawUom": "each",
+          "expectedNormalizedInr": 23.83,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-023",
+          "vendorDescription": "seven ply export grade carton, size 1140 × 760 × 760 millimetre",
+          "rawPrice": "Rs 290.43",
+          "price": 290.43,
+          "rawUom": "each",
+          "expectedNormalizedInr": 290.43,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-024",
+          "vendorDescription": "five ply ventilated carton, size 400 × 300 × 140 millimetre",
+          "rawPrice": "Rs 33.39",
+          "price": 33.39,
+          "rawUom": "each",
+          "expectedNormalizedInr": 33.39,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-025",
+          "vendorDescription": "three ply folding carton, size 300 × 300 × 40 millimetre",
+          "rawPrice": "Rs 15.61",
+          "price": 15.61,
+          "rawUom": "each",
+          "expectedNormalizedInr": 15.61,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-026",
+          "vendorDescription": "three ply pallet cap sheet, size 1200 × 1000 millimetre",
+          "rawPrice": "Rs 23.84",
+          "price": 23.84,
+          "rawUom": "each",
+          "expectedNormalizedInr": 23.84,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-027",
+          "vendorDescription": "five ply stackable bin carton, size 600 × 400 × 220 millimetre",
+          "rawPrice": "Rs 42.25",
+          "price": 42.25,
+          "rawUom": "each",
+          "expectedNormalizedInr": 42.25,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-028",
+          "vendorDescription": "three ply book wrap mailer, size 330 × 250 × 80 millimetre",
+          "rawPrice": "Rs 12.70",
+          "price": 12.7,
+          "rawUom": "each",
+          "expectedNormalizedInr": 12.7,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-029",
+          "vendorDescription": "three ply die-cut insert, size  millimetre",
+          "rawPrice": "Rs 17.42",
+          "price": 17.42,
+          "rawUom": "each",
+          "expectedNormalizedInr": 17.42,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-030",
+          "vendorDescription": "two ply separator sheet, size 590 × 390 millimetre",
+          "rawPrice": "Rs 3.48",
+          "price": 3.48,
+          "rawUom": "per piece",
+          "expectedNormalizedInr": 347.67,
+          "expectedReview": null
+        }
+      ],
+      "notQuoted": [],
+      "answers": [
+        {
+          "qNo": 1,
+          "answer": "Yes — ISO 9001:2015, certificate KL-QMS-19883"
+        },
+        {
+          "qNo": 2,
+          "answer": "No"
+        },
+        {
+          "qNo": 3,
+          "answer": "Yes, ECT reports issued per lot"
+        },
+        {
+          "qNo": 4,
+          "answer": "15"
+        },
+        {
+          "qNo": 5,
+          "answer": "3100000"
+        },
+        {
+          "qNo": 6,
+          "answer": "No"
+        },
+        {
+          "qNo": 7,
+          "answer": "No"
+        },
+        {
+          "qNo": 8,
+          "answer": "60 days from date of invoice"
+        }
+      ],
+      "commercialNotes": [
+        {
+          "kind": "condition",
+          "text": "Prices are inclusive of delivery to Bangalore plant but exclude GST.",
+          "percent": null
+        },
+        {
+          "kind": "surcharge",
+          "text": "A tooling charge of Rs 48,000 one-time applies to the custom die-cut insert.",
+          "percent": null
+        }
+      ],
+      "expectedIllegible": []
+    },
+    {
+      "vendorKey": "shakti",
+      "vendorName": "Shakti Board Works",
+      "format": "photo",
+      "filename": "shakti-rate-card.jpg",
+      "currency": null,
+      "incoterm": null,
+      "validity": "30 days",
+      "paymentTerms": "Advance 50%, balance on delivery",
+      "lines": [
+        {
+          "rfxCode": "CP-001",
+          "vendorDescription": "3P RSC BOX 12.0x9.0x6.0\"",
+          "rawPrice": "12.11",
+          "price": 12.11,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 12.11,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-002",
+          "vendorDescription": "3P RSC BOX 15.7x11.8x7.9\"",
+          "rawPrice": "20.97",
+          "price": 20.97,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 20.97,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-003",
+          "vendorDescription": "3P RSC BOX 17.7x11.8x7.9\"",
+          "rawPrice": "21.73",
+          "price": 21.73,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 21.73,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-004",
+          "vendorDescription": "5P RSC BOX 17.7x11.8x7.9\"",
+          "rawPrice": "33.45",
+          "price": 33.45,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 33.45,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-005",
+          "vendorDescription": "5P RSC BOX 19.7x15.7x11.8\"",
+          "rawPrice": "48.65",
+          "price": 48.65,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 48.65,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-006",
+          "vendorDescription": "5P RSC BOX 23.6x15.7x15.7\"",
+          "rawPrice": "61.75",
+          "price": 61.75,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 61.75,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-008",
+          "vendorDescription": "3P MAILER 9.8x7.1x2.4\"",
+          "rawPrice": "9.03",
+          "price": 9.03,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 9.03,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-009",
+          "vendorDescription": "3P MAILER 12.6x9.4x3.1\"",
+          "rawPrice": "11.35",
+          "price": 11.35,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 11.35,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-014",
+          "vendorDescription": "3P SHEET 47.2x31.5\"",
+          "rawPrice": "14.83",
+          "price": 14.83,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 14.83,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-015",
+          "vendorDescription": "5P SHEET 47.2x31.5\"",
+          "rawPrice": "26.94",
+          "price": 26.94,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 26.94,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-018",
+          "vendorDescription": "3P PAD 45.3x37.4\"",
+          "rawPrice": "17.86",
+          "price": 17.86,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 17.86,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-022",
+          "vendorDescription": "3P RSC BOX 15.0x11.0x7.1\"",
+          "rawPrice": "20.75",
+          "price": 20.75,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 20.75,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-024",
+          "vendorDescription": "5P VENT BOX 15.7x11.8x5.5\"",
+          "rawPrice": "27.01",
+          "price": 27.01,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 27.01,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-025",
+          "vendorDescription": "3P FOLD CARTON 11.8x11.8x1.6\"",
+          "rawPrice": "14.54",
+          "price": 14.54,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 14.54,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-027",
+          "vendorDescription": "5P BIN BOX 23.6x15.7x8.7\"",
+          "rawPrice": "36.77",
+          "price": 36.77,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 36.77,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-028",
+          "vendorDescription": "3P BOOK WRAP 13.0x9.8x3.1\"",
+          "rawPrice": "11.98",
+          "price": 11.98,
+          "rawUom": "PC",
+          "expectedNormalizedInr": 11.98,
+          "expectedReview": null
+        }
+      ],
+      "notQuoted": [
+        "CP-007",
+        "CP-010",
+        "CP-011",
+        "CP-012",
+        "CP-013",
+        "CP-016",
+        "CP-017",
+        "CP-019",
+        "CP-020",
+        "CP-021",
+        "CP-023",
+        "CP-026",
+        "CP-029",
+        "CP-030"
+      ],
+      "answers": [
+        {
+          "qNo": 1,
+          "answer": "No"
+        },
+        {
+          "qNo": 2,
+          "answer": "No"
+        },
+        {
+          "qNo": 3,
+          "answer": "No — on request only, at extra cost"
+        },
+        {
+          "qNo": 4,
+          "answer": "7"
+        },
+        {
+          "qNo": 5,
+          "answer": "900000"
+        },
+        {
+          "qNo": 6,
+          "answer": "No"
+        },
+        {
+          "qNo": 7,
+          "answer": "No"
+        },
+        {
+          "qNo": 8,
+          "answer": "Advance 50%, balance on delivery"
+        }
+      ],
+      "commercialNotes": [
+        {
+          "kind": "condition",
+          "text": "Rates valid for 30 days. Transport extra.",
+          "percent": null
+        }
+      ],
+      "expectedIllegible": [
+        "CP-018",
+        "CP-022"
+      ]
+    },
+    {
+      "vendorKey": "pacific",
+      "vendorName": "Pacific Pack Solutions Pte Ltd",
+      "format": "email",
+      "filename": "pacific-reply.eml",
+      "currency": "USD",
+      "incoterm": "FOB Singapore",
+      "validity": null,
+      "paymentTerms": "Letter of credit at sight",
+      "lines": [
+        {
+          "rfxCode": "CP-001",
+          "vendorDescription": "3-ply Regular Slotted Container 305x229x152",
+          "rawPrice": "USD 0.16",
+          "price": 0.16,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 13.36,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-002",
+          "vendorDescription": "3-ply Regular Slotted Container 400x300x200",
+          "rawPrice": "USD 0.25",
+          "price": 0.25,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 20.88,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-003",
+          "vendorDescription": "3-ply Regular Slotted Container 450x300x200",
+          "rawPrice": "USD 0.27",
+          "price": 0.27,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 22.55,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-004",
+          "vendorDescription": "5-ply Regular Slotted Container 450x300x200",
+          "rawPrice": "USD 0.42",
+          "price": 0.42,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 35.07,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-005",
+          "vendorDescription": "5-ply Regular Slotted Container 500x400x300",
+          "rawPrice": "USD 0.64",
+          "price": 0.64,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 53.44,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-006",
+          "vendorDescription": "5-ply Regular Slotted Container 600x400x400",
+          "rawPrice": "USD 0.73",
+          "price": 0.73,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 60.96,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-008",
+          "vendorDescription": "3-ply Die Cut Mailer 250x180x60",
+          "rawPrice": "USD 0.12",
+          "price": 0.12,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 10.02,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-009",
+          "vendorDescription": "3-ply Die Cut Mailer 320x240x80",
+          "rawPrice": "USD 0.15",
+          "price": 0.15,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 12.53,
+          "expectedReview": null
+        },
+        {
+          "rfxCode": "CP-022",
+          "vendorDescription": "3-ply Regular Slotted Container 380x280x180",
+          "rawPrice": "USD 0.26",
+          "price": 0.26,
+          "rawUom": "per pc",
+          "expectedNormalizedInr": 21.71,
+          "expectedReview": null
+        }
+      ],
+      "notQuoted": [
+        "CP-007",
+        "CP-010",
+        "CP-011",
+        "CP-012",
+        "CP-013",
+        "CP-014",
+        "CP-015",
+        "CP-016",
+        "CP-017",
+        "CP-018",
+        "CP-019",
+        "CP-020",
+        "CP-021",
+        "CP-023",
+        "CP-024",
+        "CP-025",
+        "CP-026",
+        "CP-027",
+        "CP-028",
+        "CP-029",
+        "CP-030"
+      ],
+      "answers": [
+        {
+          "qNo": 1,
+          "answer": "Yes — ISO 9001:2015, cert SG-QM-70412"
+        },
+        {
+          "qNo": 2,
+          "answer": "Yes — FSC 100%"
+        },
+        {
+          "qNo": 3,
+          "answer": "Yes"
+        },
+        {
+          "qNo": 4,
+          "answer": "21"
+        },
+        {
+          "qNo": 5,
+          "answer": "2600000"
+        },
+        {
+          "qNo": 6,
+          "answer": "No"
+        },
+        {
+          "qNo": 7,
+          "answer": "Yes — BRCGS Packaging A grade"
+        },
+        {
+          "qNo": 8,
+          "answer": "Letter of credit at sight"
+        }
+      ],
+      "commercialNotes": [
+        {
+          "kind": "condition",
+          "text": "Prices are FOB Singapore. Freight and duty to buyer account.",
+          "percent": null
+        },
+        {
+          "kind": "condition",
+          "text": "Balance of the schedule quoted at last year rates, subject to reconfirmation.",
+          "percent": null
+        }
+      ],
+      "expectedIllegible": []
+    }
+  ]
+}
