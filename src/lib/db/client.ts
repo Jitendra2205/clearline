@@ -68,6 +68,21 @@ export function dbLocation(): string {
   return url ?? path.join(appRoot(), 'data', 'clearline.db');
 }
 
+/**
+ * The database as a filesystem path, or null when it lives on a remote server.
+ *
+ * LIBSQL_URL may legitimately arrive as `file:/var/data/clearline.db` — that is
+ * the documented way to point this app at a mounted disk. The `file:` prefix is
+ * part of libSQL's URL scheme, not part of the path, and handing the raw value
+ * to fs.* asks the kernel for a directory literally named `file:`. Anything
+ * that touches the disk must go through here; `dbLocation` is for display only.
+ */
+export function dbFilePath(): string | null {
+  const loc = dbLocation();
+  if (loc.startsWith('libsql://')) return null;
+  return loc.startsWith('file:') ? loc.slice(5) : loc;
+}
+
 export function db(): Client {
   if (!_client) _client = makeClient();
   return _client;

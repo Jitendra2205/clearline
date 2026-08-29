@@ -22,14 +22,14 @@ import './load-env';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { dbLocation } from '../src/lib/db/client';
+import { dbFilePath } from '../src/lib/db/client';
 
 const SNAPSHOT = path.join(process.cwd(), 'data', 'snapshot', 'clearline-seed.db');
 
 function main() {
-  const target = dbLocation();
+  const target = dbFilePath();
 
-  if (target.startsWith('libsql://')) {
+  if (target === null) {
     console.log('  boot: remote database configured, seeding if empty');
     seed();
     return;

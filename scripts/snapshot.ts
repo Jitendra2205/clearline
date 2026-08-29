@@ -12,15 +12,15 @@
 import './load-env';
 import fs from 'node:fs';
 import path from 'node:path';
-import { all, ready, dbLocation } from '../src/lib/db/client';
+import { all, ready, dbFilePath } from '../src/lib/db/client';
 
 const OUT = path.join(process.cwd(), 'data', 'snapshot', 'clearline-seed.db');
 
 async function main() {
   await ready();
 
-  const source = dbLocation();
-  if (source.startsWith('libsql://')) {
+  const source = dbFilePath();
+  if (source === null) {
     console.error('  Snapshots are only taken from a local file database.');
     process.exit(1);
   }

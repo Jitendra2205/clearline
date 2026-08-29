@@ -26,12 +26,16 @@ services:
         value: production
 
       # Required — the AI loops are real and will not run without a key.
-      # Set whichever provider you are using in the Render dashboard; never
-      # commit one. Whichever key is present selects the provider.
+      # Set it in the Render dashboard; never commit one.
       - key: GEMINI_API_KEY
         sync: false
-      - key: ANTHROPIC_API_KEY
-        sync: false
+
+      # The other provider. Add it in the dashboard to switch: provider.ts
+      # uses whichever key is present, and CLEARLINE_PROVIDER breaks the tie
+      # when both are. Kept out of the blueprint so a first deploy is not
+      # blocked asking for a key you may not hold.
+      # - key: ANTHROPIC_API_KEY
+      #   sync: false
 
       # Gates every route. Vendor pricing is commercially sensitive, and this
       # URL is public. Set it to something you are happy to put in an email
