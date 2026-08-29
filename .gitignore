@@ -48,3 +48,6 @@ next-env.d.ts
 
 # the deploy snapshot is committed on purpose - it is a real extraction run
 !data/snapshot/*.db
+
+# ...but the template is meant to be in the repo - the README says to copy it
+!.env.local.example
