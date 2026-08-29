@@ -13,10 +13,11 @@
     "extract": "tsx scripts/extract.ts",
     "test:pipeline": "tsx scripts/test-pipeline.ts",
     "test:match": "tsx scripts/check-match-aerchain.ts",
-    "prestart": "tsx scripts/seed-aerchain.ts",
+    "prestart": "tsx scripts/boot.ts",
     "seed:synthetic": "tsx scripts/seed.ts",
     "eval:synthetic": "tsx scripts/eval.ts",
-    "test:match:synthetic": "tsx scripts/check-match.ts"
+    "test:match:synthetic": "tsx scripts/check-match.ts",
+    "snapshot": "tsx scripts/snapshot.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",

@@ -1,12 +1,9 @@
-# Clearline — single container, SQLite on a mounted disk.
+# Clearline — single container.
 #
-# The database is a file. Point LIBSQL_URL at a path on a persistent disk
-# (render.yaml uses file:/var/data/clearline.db) and the RFx, extractions,
-# review resolutions and audit trail survive restarts and redeploys. No
-# external database to provision.
-#
-# Note the disk must NOT be mounted at /app/data — that directory holds the
-# vendor document fixtures baked into the image, and a mount would hide them.
+# The database is a SQLite file. On Render's free plan there is no persistent
+# disk, so `scripts/boot.ts` restores a committed snapshot of a real extraction
+# run on every cold start. Point LIBSQL_URL at a Turso database instead and the
+# same image becomes genuinely durable with no code change.
 
 FROM node:22-slim AS deps
 WORKDIR /app
@@ -17,9 +14,7 @@ FROM node:22-slim AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# Fixtures are generated at build time so the demo dataset ships with the image
-# and ground_truth.json stays in lockstep with the vendor documents.
-RUN npx tsx scripts/make-fixtures.ts && npm run build
+RUN npm run build
 
 FROM node:22-slim AS runtime
 WORKDIR /app
@@ -34,12 +29,11 @@ COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/src ./src
 COPY --from=build /app/tsconfig.json ./tsconfig.json
 
-RUN mkdir -p /var/data && chown -R node:node /var/data /app/data
+RUN mkdir -p /app/data && chown -R node:node /app/data
 USER node
 
 EXPOSE 3000
 ENV PORT=3000
 
-# `prestart` seeds the demo RFx if the database is empty, then next starts.
-# Seeding is a no-op on every boot after the first.
+# `prestart` runs scripts/boot.ts: restore the snapshot, or seed, then serve.
 CMD ["npm", "run", "start"]

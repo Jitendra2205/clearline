@@ -45,3 +45,6 @@ next-env.d.ts
 /data/*.db-*
 .env.local
 .env
+
+# the deploy snapshot is committed on purpose - it is a real extraction run
+!data/snapshot/*.db
