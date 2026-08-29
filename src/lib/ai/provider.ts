@@ -43,6 +43,16 @@ export function modelVersion(): string {
 export class ModelUnavailableError extends Error {}
 export class ModelRefusedError extends Error {}
 
+/**
+ * Whether the selected provider actually holds a key — the same question
+ * requireKey() asks, minus the throw. The health check reported
+ * ANTHROPIC_API_KEY directly and so read false on a working Gemini deploy.
+ */
+export function keyConfigured(): boolean {
+  const p = provider();
+  return Boolean(p === 'gemini' ? process.env.GEMINI_API_KEY : process.env.ANTHROPIC_API_KEY);
+}
+
 function requireKey(): string {
   const p = provider();
   const key = p === 'gemini' ? process.env.GEMINI_API_KEY : process.env.ANTHROPIC_API_KEY;

@@ -1,4 +1,5 @@
 import { all, ready } from '@/lib/db/client';
+import { keyConfigured, provider, model } from '@/lib/ai/provider';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -23,7 +24,9 @@ export async function GET() {
         rfx,
         documents: docs,
         extractedQuotes: quotes,
-        modelConfigured: Boolean(process.env.ANTHROPIC_API_KEY),
+        modelConfigured: keyConfigured(),
+        provider: provider(),
+        model: model(),
         authGate: Boolean(process.env.CLEARLINE_PASSWORD),
       },
       { headers: { 'Cache-Control': 'no-store' } },
