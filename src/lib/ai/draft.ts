@@ -1,5 +1,4 @@
-import type Anthropic from '@anthropic-ai/sdk';
-import { anthropic, MODEL, FALLBACK_OPTS } from './client';
+import { runTool } from './provider';
 import { DRAFT_TOOL, zDraft, type Draft } from './schemas';
 
 /**
@@ -42,34 +41,20 @@ export async function draftRfx(
   history: { role: 'user' | 'assistant'; content: string }[],
   brief: string,
 ): Promise<DraftOutcome> {
-  const client = anthropic();
+  // Prior turns are folded into the brief: this loop is one-shot per call, and
+  // the buyer edits the result rather than negotiating with it.
+  const conversation = history.length
+    ? `${history.map((h) => `${h.role === 'user' ? 'Buyer' : 'You previously proposed'}: ${h.content}`).join('\n\n')}\n\nBuyer: ${brief}`
+    : brief;
 
-  const messages: Anthropic.MessageParam[] = [
-    ...history.map((h) => ({ role: h.role, content: h.content } as Anthropic.MessageParam)),
-    { role: 'user', content: brief },
-  ];
-
-  const msg = (await client.beta.messages.create({
-    model: MODEL,
-    max_tokens: 16000,
+  const run = await runTool({
     system: SYSTEM,
-    thinking: { type: 'adaptive' },
-    tools: [DRAFT_TOOL],
-    tool_choice: { type: 'tool', name: 'propose_rfx' },
-    messages,
-    ...FALLBACK_OPTS,
-  })) as unknown as Anthropic.Message;
+    parts: [{ kind: 'text', text: conversation }],
+    tool: DRAFT_TOOL,
+    maxOutputTokens: 32000,
+  });
 
-  if (msg.stop_reason === 'refusal') {
-    throw new Error('The model declined to draft this RFx.');
-  }
-
-  const toolUse = msg.content.find(
-    (b): b is Anthropic.ToolUseBlock => b.type === 'tool_use' && b.name === 'propose_rfx',
-  );
-  if (!toolUse) throw new Error('The co-pilot returned no RFx proposal.');
-
-  const parsed = zDraft.safeParse(toolUse.input);
+  const parsed = zDraft.safeParse(run.input);
   if (!parsed.success) {
     throw new Error(
       `The proposed RFx did not validate: ${parsed.error.issues.slice(0, 3).map((i) => i.path.join('.') + ' ' + i.message).join('; ')}`,
@@ -78,7 +63,7 @@ export async function draftRfx(
 
   return {
     draft: parsed.data,
-    inputTokens: msg.usage?.input_tokens ?? 0,
-    outputTokens: msg.usage?.output_tokens ?? 0,
+    inputTokens: run.usage.inputTokens,
+    outputTokens: run.usage.outputTokens,
   };
 }

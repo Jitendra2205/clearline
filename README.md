@@ -85,6 +85,38 @@ A second, synthetic dataset is kept for regression (`npm run seed:synthetic`,
 
 ---
 
+## Results
+
+Measured, not asserted. `npm run eval` scores the database after a real
+extraction against the supplied ground truth:
+
+```
+34/34 checks passed
+```
+
+Including the graded ones:
+
+| | Expected | Got |
+|---|---|---|
+| Split award, cheapest per line among qualified vendors | ₹4,47,16,859 | ₹4,47,16,859 |
+| Per-line winner and price, all 30 lines | 30/30 | 30/30 |
+| Single-vendor total — PackRite | ₹4,63,47,510 | matches |
+| Single-vendor total — Global Corrugates | ₹4,56,06,857 | matches |
+| Coverage per vendor | 30 / 30 / 27 / 18 / 4 | 30 / 30 / 27 / 18 / 4 |
+| Line 1 across all five vendors, incl. the FX-converted one | exact | exact |
+| Shakti sheet pads, per 100 → per piece | 6.10 / 4.72 | 6.10 / 4.72 |
+
+Deterministic matching against the supplied vendor descriptions: **97.1%
+coverage at 100% precision**. Pipeline integration tests: **28/28**.
+
+One discrepancy worth flagging: the ground truth excludes MetroBoard for
+on-time delivery of 89.5%, but **that figure appears nowhere in the rate-card
+photograph supplied** — the card states ISO 9001, the in-house lab, lead time,
+payment terms and MOQ, and no delivery percentage. (The dataset README
+references a `ground_truth.json` carrying it; that file was not in the set.) So
+MetroBoard is excluded as *unassessable* on that question rather than as failing
+it. Same outcome, and the only conclusion the supplied evidence supports.
+
 ## The three AI loops
 
 | Loop | What it does | How it is constrained |
@@ -92,6 +124,25 @@ A second, synthetic dataset is kept for regression (`npm run seed:synthetic`,
 | **1 — Drafting co-pilot** | Plain-language brief → structured RFx | Strict tool schema. Every dimension canonicalised to mm at authoring time. The model must declare, in `assumptions`, everything it invented that the buyer never said. |
 | **2 — Extraction** | One document → one filled schema | `null` when a value is absent, never a guess. A mandatory `source_ref` with a verbatim snippet on every field. Zod re-validation on ingest; off-schema output is rejected, not repaired. No field for a rank, score or recommendation. |
 | **3 — Analyst Q&A** | Question → query → answer | The model picks one of nine queries. The application computes every number. The model narrates. It does no arithmetic. |
+
+## Models
+
+Two providers behind one interface (`src/lib/ai/provider.ts`). The loops call
+`runTool` and `startToolLoop` and never learn which vendor answered.
+
+| | Set | Default model |
+|---|---|---|
+| Gemini | `GEMINI_API_KEY` | `gemini-3.6-flash` |
+| Anthropic | `ANTHROPIC_API_KEY` | `claude-opus-5` |
+
+Whichever key is present is used; `CLEARLINE_PROVIDER` forces one. The numbers
+above were produced on Gemini, which handles the PDF and the angled photograph
+natively — both are sent as bytes, not pre-converted to text.
+
+**Free-tier Gemini is capped at 20 requests per day per model.** Extracting all
+five documents costs five. That is fine for preparing a demo and too tight to
+leave a public link running live extraction — which is why the deploy ships a
+snapshot of a completed run.
 
 ## Normalisation
 

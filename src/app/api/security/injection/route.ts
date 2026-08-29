@@ -6,7 +6,7 @@ import { requireAuth } from '@/lib/security/auth';
 import { sniff, sha256 } from '@/lib/security/files';
 import { all, one, run, j } from '@/lib/db/client';
 import { extractQuote } from '@/lib/ai/extract';
-import { ModelUnavailableError } from '@/lib/ai/client';
+import { ModelUnavailableError } from '@/lib/ai/provider';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;

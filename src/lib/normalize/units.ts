@@ -118,7 +118,11 @@ export function canonicaliseUom(raw: string | null): string | null {
   if (!raw) return null;
   const k = raw.trim().toLowerCase().replace(/[.]/g, '').replace(/\s+/g, ' ');
   if (UOM_ALIASES[k]) return UOM_ALIASES[k];
-  const stripped = k.replace(/^per\s+/, '');
+
+  // Vendors write the basis as a suffix as often as a phrase: "77/kg" arrives
+  // as "/kg", and refusing that as unrecognised held a perfectly clear line out
+  // of the comparison.
+  const stripped = k.replace(/^per\s+/, '').replace(/^\/\s*/, '').trim();
   if (UOM_ALIASES[stripped]) return UOM_ALIASES[stripped];
   // "per 100 pieces" style with an explicit multiple
   const m = stripped.match(/^(\d+)\s*(pc|pcs|piece|pieces)$/);

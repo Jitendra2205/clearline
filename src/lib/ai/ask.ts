@@ -1,5 +1,4 @@
-import type Anthropic from '@anthropic-ai/sdk';
-import { anthropic, MODEL, FALLBACK_OPTS } from './client';
+import { startToolLoop, ModelRefusedError, type ToolSpec } from './provider';
 import {
   cheapestPerLine, commercialNotes, comparePrices, coverageReport, lineDetail,
   listRfxLines, questionnaireReport, reviewQueueSummary, totalCost, type QueryResult,
@@ -32,58 +31,58 @@ You cannot see the data. You reach it only by calling the query tools. Call as m
 
 ## Refusing well
 
-Some questions cannot be answered from this data — a vendor's manufacturing capacity in a city they did not mention, a price for a line nobody quoted, next year's board prices. Say "I can't answer that from this data" and say what is missing. An invented answer here ends up in an award decision.
+Some questions cannot be answered from this data — a vendor's capacity in a city they did not mention, a price for a line nobody quoted, next year's board prices. Say "I can't answer that from this data" and say what is missing. An invented answer here ends up in an award decision.
 
-When coverage is partial, say so rather than quietly comparing different baskets. "Pacific is cheapest" is misleading if Pacific quoted 9 lines and the others quoted 30.
+A vendor who wrote "rest same as last year" has not given you those prices. There is no prior-year price list in this dataset, so those lines are unknown and must stay unknown.
+
+When coverage is partial, say so rather than quietly comparing different baskets. A vendor who quoted 4 of 30 lines is not "cheapest overall" in any sense a buyer can act on.
 
 ## Uncertainty
 
 Some lines are held out of the comparison because a human has not yet confirmed them. The tools report this. If open review items could change your answer, say which way.`;
 
-export const QUERY_TOOLS: Anthropic.Tool[] = [
+export const QUERY_TOOLS: ToolSpec[] = [
   {
     name: 'list_rfx_lines',
     description: 'List every line item in the RFx with its code, description, unit of measure and annual quantity. Use this to find line codes before calling other tools.',
-    input_schema: { type: 'object', properties: {}, required: [], additionalProperties: false },
+    schema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'coverage_report',
     description: 'Per vendor: how many RFx lines they quoted comparably, how many are held for review, and whether they cleared the quality questionnaire. Use this whenever coverage or completeness matters.',
-    input_schema: { type: 'object', properties: {}, required: [], additionalProperties: false },
+    schema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'compare_prices',
     description: 'A price matrix: normalised unit price per RFx line per vendor. Use for "what does each vendor charge for X".',
-    input_schema: {
+    schema: {
       type: 'object',
       properties: {
-        line_codes: { type: ['array', 'null'], items: { type: 'string' }, description: 'RFx line codes to limit to, or null for all.' },
+        line_codes: { type: ['array', 'null'], items: { type: 'string' }, description: 'RFx line codes such as L01, or null for all.' },
         vendor_names: { type: ['array', 'null'], items: { type: 'string' }, description: 'Vendor name fragments to limit to, or null for all.' },
         only_quality_cleared: { type: ['boolean', 'null'], description: 'True to include only vendors that cleared the gating questionnaire questions.' },
       },
       required: ['line_codes', 'vendor_names', 'only_quality_cleared'],
-      additionalProperties: false,
     },
   },
   {
     name: 'total_cost',
-    description: 'Total annual cost per vendor (normalised unit price x RFx annual quantity), ranked cheapest first. By default compares only lines every included vendor quoted, so the comparison is like-for-like.',
-    input_schema: {
+    description: 'Total annual cost per vendor (normalised unit price x RFx annual quantity), ranked cheapest first, with each vendor’s own coverage shown. By default compares only lines every included vendor quoted, so the comparison is like-for-like.',
+    schema: {
       type: 'object',
       properties: {
         vendor_names: { type: ['array', 'null'], items: { type: 'string' } },
         only_quality_cleared: { type: ['boolean', 'null'] },
         line_codes: { type: ['array', 'null'], items: { type: 'string' } },
-        common_lines_only: { type: ['boolean', 'null'], description: 'Default true. Set false ONLY if the buyer explicitly wants each vendor scored on their own coverage, which is not like-for-like.' },
+        common_lines_only: { type: ['boolean', 'null'], description: 'Default true. Set false to score each vendor on their own coverage, which is NOT like-for-like — say so if you do.' },
       },
       required: ['vendor_names', 'only_quality_cleared', 'line_codes', 'common_lines_only'],
-      additionalProperties: false,
     },
   },
   {
     name: 'cheapest_per_line',
     description: 'Split-award analysis: the cheapest vendor for every line, the annual saving over the next cheapest, and the resulting value awarded to each vendor. Use for "what if we split it, cheapest per line".',
-    input_schema: {
+    schema: {
       type: 'object',
       properties: {
         only_quality_cleared: { type: ['boolean', 'null'] },
@@ -91,33 +90,31 @@ export const QUERY_TOOLS: Anthropic.Tool[] = [
         line_codes: { type: ['array', 'null'], items: { type: 'string' } },
       },
       required: ['only_quality_cleared', 'vendor_names', 'line_codes'],
-      additionalProperties: false,
     },
   },
   {
     name: 'questionnaire_report',
-    description: 'Every questionnaire question with each vendor’s answer as written, plus which vendors clear the gating questions.',
-    input_schema: { type: 'object', properties: {}, required: [], additionalProperties: false },
+    description: 'Every questionnaire question with each vendor’s answer as written, plus which vendors clear the gating questions and why the others do not.',
+    schema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'line_detail',
     description: 'For one RFx line: every vendor’s quote with the raw text as written, the raw price, the normalisation applied, the match tier and the extraction confidence. Use when the buyer asks how a number was arrived at.',
-    input_schema: {
+    schema: {
       type: 'object',
-      properties: { line_code: { type: 'string' } },
+      properties: { line_code: { type: 'string', description: 'An RFx line code such as L01.' } },
       required: ['line_code'],
-      additionalProperties: false,
     },
   },
   {
     name: 'commercial_notes',
     description: 'Every discount, rebate, surcharge and condition stated in the vendor documents, including ones buried in footnotes. None are applied to prices.',
-    input_schema: { type: 'object', properties: {}, required: [], additionalProperties: false },
+    schema: { type: 'object', properties: {}, required: [] },
   },
   {
     name: 'review_queue_summary',
     description: 'Counts of open and resolved review items by issue type. Use when asked what the system is unsure about.',
-    input_schema: { type: 'object', properties: {}, required: [], additionalProperties: false },
+    schema: { type: 'object', properties: {}, required: [] },
   },
 ];
 
@@ -152,82 +149,60 @@ export interface AskEvent {
 }
 
 /**
- * Manual loop rather than the SDK tool runner, because the UI renders the tool
+ * A hand-rolled loop rather than an SDK helper, because the UI renders the tool
  * results itself — the buyer sees the table the model saw, not the model's
  * retelling of it.
  */
 export async function* ask(
   rfxId: string,
-  history: Anthropic.MessageParam[],
+  history: { role: 'user' | 'assistant'; content: string }[],
   question: string,
 ): AsyncGenerator<AskEvent> {
-  const client = anthropic();
-  const messages: Anthropic.MessageParam[] = [
-    ...history,
-    { role: 'user', content: question },
-  ];
+  let loop;
+  try {
+    loop = startToolLoop({ system: SYSTEM, history, question, tools: QUERY_TOOLS });
+  } catch (e) {
+    yield { type: 'error', error: e instanceof Error ? e.message : String(e) };
+    return;
+  }
 
   for (let turn = 0; turn < 8; turn++) {
-    let msg: Anthropic.Message;
+    let step;
     try {
-      msg = (await client.beta.messages.create({
-        model: MODEL,
-        max_tokens: 16000,
-        system: SYSTEM,
-        thinking: { type: 'adaptive' },
-        tools: QUERY_TOOLS,
-        messages,
-        ...FALLBACK_OPTS,
-      })) as unknown as Anthropic.Message;
+      step = await loop.next();
     } catch (e) {
-      yield { type: 'error', error: e instanceof Error ? e.message : String(e) };
+      yield {
+        type: 'error',
+        error: e instanceof ModelRefusedError
+          ? 'The model declined to answer this question.'
+          : e instanceof Error ? e.message : String(e),
+      };
       return;
     }
 
-    if (msg.stop_reason === 'refusal') {
-      yield { type: 'error', error: 'The model declined to answer this question.' };
-      return;
-    }
+    if (step.text) yield { type: 'text', text: step.text };
 
-    for (const block of msg.content) {
-      if (block.type === 'text' && block.text.trim()) {
-        yield { type: 'text', text: block.text };
-      }
-    }
-
-    const toolUses = msg.content.filter(
-      (b): b is Anthropic.ToolUseBlock => b.type === 'tool_use',
-    );
-
-    if (toolUses.length === 0) {
+    if (step.calls.length === 0) {
       yield { type: 'done' };
       return;
     }
 
-    messages.push({ role: 'assistant', content: msg.content });
-
-    // All results go back in ONE user message, per the parallel tool contract.
-    const results: Anthropic.ToolResultBlockParam[] = [];
-    for (const tu of toolUses) {
-      yield { type: 'tool_call', name: tu.name, input: tu.input };
+    const results: { id: string; name: string; output: unknown }[] = [];
+    for (const call of step.calls) {
+      yield { type: 'tool_call', name: call.name, input: call.input };
       try {
-        const r = await runQueryTool(rfxId, tu.name, tu.input as ToolInput);
-        yield { type: 'tool_result', name: tu.name, result: r };
-        results.push({
-          type: 'tool_result',
-          tool_use_id: tu.id,
-          content: JSON.stringify(compactForModel(r)),
-        });
+        const r = await runQueryTool(rfxId, call.name, call.input);
+        yield { type: 'tool_result', name: call.name, result: r };
+        results.push({ id: call.id, name: call.name, output: compactForModel(r) });
       } catch (e) {
         results.push({
-          type: 'tool_result',
-          tool_use_id: tu.id,
-          is_error: true,
-          content: e instanceof Error ? e.message : String(e),
+          id: call.id,
+          name: call.name,
+          output: { error: e instanceof Error ? e.message : String(e) },
         });
       }
     }
-    messages.push({ role: 'user', content: results });
+    loop.push(results);
   }
 
   yield { type: 'error', error: 'Query loop exceeded its step budget without producing an answer.' };

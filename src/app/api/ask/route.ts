@@ -2,8 +2,7 @@ import { nanoid } from 'nanoid';
 import { requireAuth } from '@/lib/security/auth';
 import { ask } from '@/lib/ai/ask';
 import { run, j } from '@/lib/db/client';
-import { ModelUnavailableError } from '@/lib/ai/client';
-import type Anthropic from '@anthropic-ai/sdk';
+import { ModelUnavailableError } from '@/lib/ai/provider';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
@@ -28,7 +27,7 @@ export async function POST(req: Request) {
     return Response.json({ error: 'rfxId and question are required.' }, { status: 400 });
   }
 
-  const priorTurns: Anthropic.MessageParam[] = (history ?? [])
+  const priorTurns = (history ?? [])
     .slice(-6)
     .map((h) => ({ role: h.role, content: h.content }));
 

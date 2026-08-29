@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
 import { requireAuth } from '@/lib/security/auth';
 import { draftRfx } from '@/lib/ai/draft';
-import { ModelUnavailableError } from '@/lib/ai/client';
+import { ModelUnavailableError } from '@/lib/ai/provider';
 import { batch, run, j } from '@/lib/db/client';
 import type { Draft } from '@/lib/ai/schemas';
 

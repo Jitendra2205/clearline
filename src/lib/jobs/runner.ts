@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { all, one, run, j } from '../db/client';
 import { extractQuote } from '../ai/extract';
 import { normalizeExtraction } from '../normalize/pipeline';
-import { PROMPT_VERSION, MODEL } from '../ai/client';
+import { PROMPT_VERSION, model, provider } from '../ai/provider';
 import type { SniffedType } from '../security/files';
 
 /**
@@ -38,7 +38,7 @@ export async function runExtractionJob(opts: {
   );
   if (!doc) throw new Error(`Document ${opts.docId} not found`);
 
-  const idem = `${doc.sha256}:${MODEL}:${PROMPT_VERSION}`;
+  const idem = `${doc.sha256}:${provider()}:${model()}:${PROMPT_VERSION}`;
 
   const prior = await one<{ id: string; status: string }>(
     'SELECT id, status FROM extraction_job WHERE idempotency_key = ?',

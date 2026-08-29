@@ -10,6 +10,7 @@
  * Run: npm run test:pipeline
  */
 
+import './load-env';
 import { all, run, ready, j } from '../src/lib/db/client';
 import { normalizeExtraction } from '../src/lib/normalize/pipeline';
 import type { Extraction } from '../src/lib/ai/schemas';

@@ -9,6 +9,7 @@
  * Run: npm run snapshot
  */
 
+import './load-env';
 import fs from 'node:fs';
 import path from 'node:path';
 import { all, ready, dbLocation } from '../src/lib/db/client';

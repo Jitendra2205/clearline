@@ -25,8 +25,11 @@ services:
       - key: NODE_ENV
         value: production
 
-      # Required — the AI loops are real and will not run without it.
-      # Set it in the Render dashboard. Never commit a key.
+      # Required — the AI loops are real and will not run without a key.
+      # Set whichever provider you are using in the Render dashboard; never
+      # commit one. Whichever key is present selects the provider.
+      - key: GEMINI_API_KEY
+        sync: false
       - key: ANTHROPIC_API_KEY
         sync: false
 
@@ -40,8 +43,6 @@ services:
       - key: CLEARLINE_SIGNING_KEY
         generateValue: true
 
-      - key: CLEARLINE_MODEL
-        value: claude-opus-5
 
       # Uncomment and set both to move the database to Turso and survive restarts.
       # - key: LIBSQL_URL

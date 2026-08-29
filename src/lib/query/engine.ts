@@ -184,7 +184,15 @@ async function resolveVendorFilter(
     const cleared = gate.filter((g) => g.cleared).map((g) => g.vendorId);
     const excluded = gate.filter((g) => !g.cleared && allowed.has(g.vendorId));
     allowed = new Set([...allowed].filter((id) => cleared.includes(id)));
-    notes.push('only vendors that cleared the quality questionnaire');
+
+    // Name who was INCLUDED, not only who was dropped. Reporting the exclusions
+    // alone left an analyst inferring the eligible set from whoever happened to
+    // win a line — and a qualified vendor who wins nothing then reads as
+    // disqualified, which is a different and more damaging claim.
+    const includedNames = vs.filter((v) => allowed.has(v.id)).map((v) => v.name);
+    notes.push(
+      `only vendors that cleared the quality questionnaire — ${includedNames.length} eligible: ${includedNames.join(', ') || '(none)'}`,
+    );
     for (const e of excluded) {
       notes.push(
         `excluded ${e.vendorName} — ${[...e.failures, ...e.unanswered.map((u) => `${u} (unanswered)`)].join('; ')}`,
@@ -471,8 +479,16 @@ export async function cheapestPerLine(
     ]);
   }
 
+  // An eligible vendor who wins nothing is invisible in the award table, and
+  // silence there reads as disqualification. Say it explicitly.
+  const eligible = (await vendors(rfxId)).filter((v) => vf.ids.has(v.id));
+  const wonNothing = eligible.filter((v) => !awardByVendor.has(v.name)).map((v) => v.name);
+
   const caveats = [
     `${byLine.size} of ${totalLines} RFx lines had at least one comparable quote from the included vendors. The remaining ${totalLines - byLine.size} cannot be awarded on price from this data.`,
+    ...(wonNothing.length
+      ? [`${wonNothing.join(', ')} ${wonNothing.length === 1 ? 'was' : 'were'} eligible but did not win any line on price. Eligible and unsuccessful, not excluded.`]
+      : []),
     'Lines where only one vendor quoted are still shown as "cheapest", but there was nothing to compare against — check the "quotes" column.',
     'Discounts and rebates stated by vendors are NOT applied here. They are recorded separately and are the buyer’s call.',
     ...(await exclusionCaveats(rfxId, vf.ids)),

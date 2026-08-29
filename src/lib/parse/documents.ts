@@ -1,20 +1,21 @@
 import * as XLSX from 'xlsx';
 import mammoth from 'mammoth';
-import type Anthropic from '@anthropic-ai/sdk';
+import type { Part } from '../ai/provider';
 import type { SniffedType } from '../security/files';
 
 /**
- * Turns a vendor document into content blocks for the extraction call.
+ * Turns a vendor document into the parts of an extraction request.
  *
- * Where a lossless text rendering exists (spreadsheets, Word, email) we build
- * it ourselves and keep cell/paragraph addresses, so the model can cite a
- * precise locator. Where it does not (PDF, photographs) the bytes go to the
- * model natively — re-typesetting a PDF into text throws away the layout that
- * makes a rate table readable in the first place.
+ * Where a lossless text rendering exists (spreadsheets, Word, email) we build it
+ * ourselves and keep cell/paragraph addresses, so the model can cite a precise
+ * locator and so the provenance check has something to verify against. Where it
+ * does not (PDF, photographs) the bytes go to the model natively —
+ * re-typesetting a PDF into text throws away the layout that makes a rate table
+ * readable in the first place.
  */
 
 export interface PreparedDocument {
-  blocks: Anthropic.ContentBlockParam[];
+  parts: Part[];
   /** How the document was presented to the model — recorded on the job. */
   strategy: 'text' | 'native_pdf' | 'native_image';
   /** Plain-text rendering, when one exists. Used by the provenance verifier. */
@@ -31,12 +32,7 @@ export function prepareDocument(
       return {
         strategy: 'native_pdf',
         text: null,
-        blocks: [
-          {
-            type: 'document',
-            source: { type: 'base64', media_type: 'application/pdf', data: buf.toString('base64') },
-          },
-        ],
+        parts: wrapNative({ kind: 'file', mime: 'application/pdf', base64: buf.toString('base64') }, filename),
       };
 
     case 'image/jpeg':
@@ -46,17 +42,12 @@ export function prepareDocument(
       return {
         strategy: 'native_image',
         text: null,
-        blocks: [
-          {
-            type: 'image',
-            source: { type: 'base64', media_type: mime, data: buf.toString('base64') },
-          },
-        ],
+        parts: wrapNative({ kind: 'file', mime, base64: buf.toString('base64') }, filename),
       };
 
     case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
       const text = renderWorkbook(buf);
-      return { strategy: 'text', text, blocks: [wrap(text, filename)] };
+      return { strategy: 'text', text, parts: [wrapText(text, filename)] };
     }
 
     case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
@@ -66,7 +57,7 @@ export function prepareDocument(
     case 'text/plain':
     case 'message/rfc822': {
       const text = renderPlainText(buf.toString('utf8'));
-      return { strategy: 'text', text, blocks: [wrap(text, filename)] };
+      return { strategy: 'text', text, parts: [wrapText(text, filename)] };
     }
   }
 }
@@ -78,17 +69,18 @@ export async function prepareDocumentAsync(
 ): Promise<PreparedDocument> {
   if (mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
     // HTML rather than raw text: it survives tables, which is where half of a
-    // Word quotation's numbers live.
+    // Word quotation's numbers live. It also preserves the white 1pt text an
+    // injection hides in — which is exactly what we want to see and neutralise.
     const { value } = await mammoth.convertToHtml({ buffer: buf });
     const text = htmlToLocatedText(value);
-    return { strategy: 'text', text, blocks: [wrap(text, filename)] };
+    return { strategy: 'text', text, parts: [wrapText(text, filename)] };
   }
   return prepareDocument(buf, mime, filename);
 }
 
 /**
  * Every sheet rendered with real cell addresses, so `source_ref.locator` can be
- * "Rate Offer!D14" and a buyer can click through to the actual cell.
+ * "Quotation!F13" and a buyer can click through to the actual cell.
  */
 function renderWorkbook(buf: Buffer): string {
   const wb = XLSX.read(buf, { type: 'buffer', cellDates: true, cellNF: false, cellText: true });
@@ -118,8 +110,6 @@ function renderWorkbook(buf: Buffer): string {
 }
 
 function htmlToLocatedText(html: string): string {
-  // Keep table structure as pipes; number the resulting blocks so a locator
-  // like "para 18" is meaningful.
   const withRows = html
     .replace(/<\/t[dh]>\s*<t[dh][^>]*>/gi, ' | ')
     .replace(/<tr[^>]*>/gi, '\n')
@@ -158,22 +148,19 @@ function renderPlainText(text: string): string {
 export const DOC_OPEN = '<<<BEGIN_UNTRUSTED_VENDOR_DOCUMENT>>>';
 export const DOC_CLOSE = '<<<END_UNTRUSTED_VENDOR_DOCUMENT>>>';
 
-function wrap(text: string, filename: string): Anthropic.ContentBlockParam {
+function wrapText(text: string, filename: string): Part {
   // Strip any attempt to forge the boundary markers from inside the document.
   const cleaned = text.split(DOC_OPEN).join('[removed]').split(DOC_CLOSE).join('[removed]');
   return {
-    type: 'text',
+    kind: 'text',
     text: `${DOC_OPEN}\nfilename: ${filename}\n\n${cleaned}\n${DOC_CLOSE}`,
   };
 }
 
-export function wrapNativeBoundary(
-  blocks: Anthropic.ContentBlockParam[],
-  filename: string,
-): Anthropic.ContentBlockParam[] {
+function wrapNative(file: Part, filename: string): Part[] {
   return [
-    { type: 'text', text: `${DOC_OPEN}\nfilename: ${filename}\nThe attached file follows.` },
-    ...blocks,
-    { type: 'text', text: DOC_CLOSE },
+    { kind: 'text', text: `${DOC_OPEN}\nfilename: ${filename}\nThe attached file follows.` },
+    file,
+    { kind: 'text', text: DOC_CLOSE },
   ];
 }

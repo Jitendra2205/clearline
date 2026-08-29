@@ -8,6 +8,7 @@
  *      npm run extract -- --force
  */
 
+import './load-env';
 import { all, ready } from '../src/lib/db/client';
 import { runExtractionJob } from '../src/lib/jobs/runner';
 

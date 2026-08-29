@@ -18,6 +18,7 @@
  * live from the UI to prove it.
  */
 
+import './load-env';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';

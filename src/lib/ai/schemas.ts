@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type Anthropic from '@anthropic-ai/sdk';
+import type { JsonSchema, ToolSpec } from './provider';
 
 /**
  * Two representations of the same contract:
@@ -15,7 +15,7 @@ import type Anthropic from '@anthropic-ai/sdk';
 // Loop 2 — extraction
 // --------------------------------------------------------------------------
 
-const sourceRefSchema = {
+const sourceRefSchema: JsonSchema = {
   type: 'object',
   properties: {
     page: {
@@ -35,14 +35,13 @@ const sourceRefSchema = {
   },
   required: ['page', 'locator', 'snippet'],
   additionalProperties: false,
-} as const;
+};
 
-export const EXTRACTION_TOOL: Anthropic.Tool = {
+export const EXTRACTION_TOOL: ToolSpec = {
   name: 'record_quote',
   description:
     'Record the quotation exactly as it appears in the supplied document. This tool only records what is written. It does not score, rank, compare or recommend anything.',
-  strict: true,
-  input_schema: {
+  schema: {
     type: 'object',
     properties: {
       vendor_name: {
@@ -100,6 +99,7 @@ export const EXTRACTION_TOOL: Anthropic.Tool = {
                 type: 'string',
                 enum: [
                   'uom_ambiguous',
+                  'uom_inherited',
                   'currency_not_stated',
                   'price_illegible',
                   'description_ambiguous',
@@ -229,12 +229,11 @@ export type Extraction = z.infer<typeof zExtraction>;
 // Loop 1 — RFx drafting co-pilot
 // --------------------------------------------------------------------------
 
-export const DRAFT_TOOL: Anthropic.Tool = {
+export const DRAFT_TOOL: ToolSpec = {
   name: 'propose_rfx',
   description:
     'Propose a structured RFx from the buyer’s description. The buyer reviews and edits every field before anything is dispatched.',
-  strict: true,
-  input_schema: {
+  schema: {
     type: 'object',
     properties: {
       title: { type: 'string' },
@@ -341,12 +340,11 @@ export type Draft = z.infer<typeof zDraft>;
 // Loop 3 — semantic line matching (tier 3 only)
 // --------------------------------------------------------------------------
 
-export const MATCH_TOOL: Anthropic.Tool = {
+export const MATCH_TOOL: ToolSpec = {
   name: 'propose_matches',
   description:
     'Propose which RFx line each unmatched vendor line refers to. Proposals are never auto-accepted — every one lands in the buyer’s review queue.',
-  strict: true,
-  input_schema: {
+  schema: {
     type: 'object',
     properties: {
       matches: {

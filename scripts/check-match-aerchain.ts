@@ -9,6 +9,7 @@
  * Run: npm run test:match
  */
 
+import './load-env';
 import { all, ready, j } from '../src/lib/db/client';
 import { exactMatch, fuzzyMatch, parseAttrs, type RfxLineForMatch } from '../src/lib/normalize/match';
 import type { LineSpec } from '../src/lib/types';

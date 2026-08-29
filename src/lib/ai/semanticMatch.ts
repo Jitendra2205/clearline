@@ -1,15 +1,14 @@
-import type Anthropic from '@anthropic-ai/sdk';
-import { anthropic, MODEL, FALLBACK_OPTS } from './client';
+import { runTool } from './provider';
 import { MATCH_TOOL, zMatches } from './schemas';
-import type { RfxLineForMatch } from '../normalize/match';
-import { shortlist } from '../normalize/match';
+import { shortlist, type RfxLineForMatch } from '../normalize/match';
 
 /**
  * Tier 3 — semantic line matching.
  *
  * Reached only when the vendor cited no line code AND deterministic attribute
- * scoring could not clear the threshold. Whatever this returns is a *proposal*:
- * the pipeline marks every semantic match as blocked and files it in the review
+ * scoring could not clear the threshold — or cleared it by too narrow a margin
+ * over the runner-up to be trusted. Whatever this returns is a *proposal*: the
+ * pipeline marks every semantic match as blocked and files it in the review
  * queue. Nothing here ever lands in the comparison unconfirmed.
  */
 
@@ -54,31 +53,16 @@ export async function proposeMatches(
     ].join('\n');
   });
 
-  const client = anthropic();
-  const msg = (await client.beta.messages.create({
-    model: MODEL,
-    max_tokens: 16000,
+  const run = await runTool({
     system: SYSTEM,
-    thinking: { type: 'adaptive' },
-    tools: [MATCH_TOOL],
-    tool_choice: { type: 'tool', name: 'propose_matches' },
-    messages: [
-      {
-        role: 'user',
-        content: `Match each vendor line below to one of its candidate RFx lines, or to null.\n\n${payload.join('\n\n')}`,
-      },
-    ],
-    ...FALLBACK_OPTS,
-  })) as unknown as Anthropic.Message;
+    parts: [{
+      kind: 'text',
+      text: `Match each vendor line below to one of its candidate RFx lines, or to null.\n\n${payload.join('\n\n')}`,
+    }],
+    tool: MATCH_TOOL,
+  });
 
-  if (msg.stop_reason === 'refusal') return [];
-
-  const toolUse = msg.content.find(
-    (b): b is Anthropic.ToolUseBlock => b.type === 'tool_use' && b.name === 'propose_matches',
-  );
-  if (!toolUse) return [];
-
-  const parsed = zMatches.safeParse(toolUse.input);
+  const parsed = zMatches.safeParse(run.input);
   if (!parsed.success) return [];
 
   return parsed.data.matches.map((m) => ({

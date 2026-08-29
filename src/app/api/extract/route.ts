@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/security/auth';
 import { runExtractionJob } from '@/lib/jobs/runner';
 import { all } from '@/lib/db/client';
-import { ModelUnavailableError } from '@/lib/ai/client';
+import { ModelUnavailableError } from '@/lib/ai/provider';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;

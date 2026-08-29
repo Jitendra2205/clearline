@@ -11,6 +11,7 @@
  *      npm run seed -- --with-adversarial   (also loads the Apex injection doc)
  */
 
+import './load-env';
 import fs from 'node:fs';
 import path from 'node:path';
 import * as XLSX from 'xlsx';

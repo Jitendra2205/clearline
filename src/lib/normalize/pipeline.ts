@@ -275,7 +275,10 @@ export async function normalizeExtraction(opts: {
 
   await runPriceBandCheck(rfxId);
 
-  return { quoteId, linesWritten: writes.length, reviewItems: reviews.length, blocked };
+  // Count priced lines, not total inserts — `writes` also carries the
+  // questionnaire answers, which made every extraction look like it had found
+  // eight more lines than the document contains.
+  return { quoteId, linesWritten: staged.length, reviewItems: reviews.length, blocked };
 }
 
 /**
