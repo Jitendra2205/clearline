@@ -115,7 +115,7 @@ export default async function ComparePage({ params }: { params: Promise<{ id: st
       rfxId={id}
       active="compare"
       title="Side-by-side comparison"
-      subtitle="Same lines, same units, same currency. Every cell shows which tier matched it and every converted value carries the original alongside."
+      subtitle="Same lines, same units, same currency. The cheapest quote on each line is marked. Anything converted, uncertain or held says so; click any price for the source document and the exact words it came from."
     >
       <CompareGrid
         rfxId={id}

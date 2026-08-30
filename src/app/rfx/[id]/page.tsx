@@ -39,8 +39,18 @@ export default async function RfxOverview({ params }: { params: Promise<{ id: st
     [id, id],
   );
 
+  // The latest job per document, not every job ever run against it. A document
+  // re-extracted after a failure has several rows, and an unordered read picks an
+  // arbitrary one — which showed five green extractions as "extraction failed"
+  // above a comparison grid that was fully populated.
   const jobs = await all<{ doc_id: string; status: string; ms: number | null; input_tokens: number | null; output_tokens: number | null; error: string | null }>(
-    'SELECT doc_id, status, ms, input_tokens, output_tokens, error FROM extraction_job WHERE rfx_id = ?', [id],
+    `SELECT doc_id, status, ms, input_tokens, output_tokens, error
+       FROM (SELECT doc_id, status, ms, input_tokens, output_tokens, error,
+                    ROW_NUMBER() OVER (PARTITION BY doc_id
+                                       ORDER BY created_at DESC, id DESC) AS rn
+               FROM extraction_job WHERE rfx_id = ?)
+      WHERE rn = 1`,
+    [id],
   );
 
   const quoteStats = await all<{ vendor_id: string; total: number; comparable: number; blocked: number }>(
@@ -54,7 +64,7 @@ export default async function RfxOverview({ params }: { params: Promise<{ id: st
   const openReviews = await one<{ n: number }>(
     "SELECT COUNT(*) AS n FROM review_item WHERE rfx_id = ? AND status = 'open'", [id],
   );
-  const extracted = jobs.filter((x) => x.status === 'succeeded').length;
+  const extracted = jobs.filter((x) => x.status === 'succeeded').length; // one row per document
 
   return (
     <Shell

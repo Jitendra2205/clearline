@@ -52,6 +52,39 @@ function money(n: number): string {
   return `₹${n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
+/**
+ * Did the number on screen actually change from what the vendor wrote?
+ *
+ * "Rs 25.40 per piece" rendered as "25.40, from 25.40 per piece" tells the buyer
+ * nothing and repeated on 100+ cells it buries the handful that did convert.
+ * A currency or unit change always moves the number or the unit, so compare
+ * both and stay quiet when neither moved.
+ */
+function wasConverted(
+  c: { rawPrice: string | null; rawUom: string | null; normalizedPrice: number | null },
+  lineUom: string,
+): boolean {
+  if (c.normalizedPrice === null) return true;
+  const m = String(c.rawPrice ?? '').match(/[0-9]+(?:[.][0-9]+)?/);
+  const rawNum = m === null ? NaN : Number(m[0]);
+  const sameNumber = Number.isFinite(rawNum) && Math.abs(rawNum - c.normalizedPrice) < 0.005;
+  const rawU = String(c.rawUom ?? '').replace(/^per\s+/i, '').trim().toLowerCase();
+  const lineU = lineUom.replace(/_/g, ' ').toLowerCase();
+  const sameUom = rawU.length === 0 || rawU === lineU || (rawU === "pc" && lineU === "piece");
+  return !(sameNumber && sameUom);
+}
+
+/**
+ * A match badge on every cell is 100+ repetitions of "fuzzy 1.00". Show one only
+ * where it changes what the buyer should do: a model proposal, an unmatched line,
+ * or a deterministic score that is not a clean 1.00. The full tier and score stay
+ * one click away in the provenance drawer.
+ */
+function needsMatchBadge(c: { matchTier: string; matchScore: number | null }): boolean {
+  if (c.matchTier === "semantic" || c.matchTier === "unmatched") return true;
+  return c.matchScore !== null && c.matchScore < 1;
+}
+
 export default function CompareGrid({
   rfxId,
   lines,
@@ -152,7 +185,7 @@ export default function CompareGrid({
       {openReviews > 0 && (
         <div className="mb-4">
           <Caveats
-            label="This grid is incomplete on purpose"
+            label="Some lines are held for review"
             items={[
               `${openReviews} review item(s) are open. Every line behind them is held out of the comparison rather than shown as a number nobody has checked.`,
               ...(unmatchedCount > 0
@@ -286,25 +319,41 @@ export default function CompareGrid({
 
                       const isBest = best?.vendorId === v.id;
                       return (
-                        <td key={v.id} className={isBest ? 'bg-emerald-50/50' : undefined}>
+                        <td
+                          key={v.id}
+                          className={
+                            isBest
+                              ? 'bg-emerald-50 border-l-2 border-l-emerald-500'
+                              : undefined
+                          }
+                        >
                           <button
                             onClick={() => setDrawer({ cell: c, line: l, vendor: v })}
                             className="w-full text-left"
                             title="Click for the source document, page, and the verbatim text this number came from."
                           >
-                            <div className={`num font-medium ${isBest ? 'text-emerald-900' : 'text-slate-900'}`}>
+                            <div className={`num font-semibold ${isBest ? 'text-emerald-800' : 'text-slate-900'}`}>
                               {c.normalizedPrice !== null ? money(c.normalizedPrice) : '—'}
                             </div>
-                            {c.normalizationNote && c.rawPrice !== String(c.normalizedPrice) && (
+                            {isBest && (
+                              <div className="mt-0.5 text-[10.5px] font-medium uppercase tracking-wide text-emerald-700">
+                                lowest
+                              </div>
+                            )}
+                            {c.normalizationNote && wasConverted(c, l.uom) && (
                               <div className="mt-0.5 text-[10.5px] leading-tight text-slate-400">
                                 from {c.rawPrice}
                                 {c.rawUom ? ` ${c.rawUom}` : ''}
                               </div>
                             )}
-                            <div className="mt-1 flex flex-wrap gap-1">
-                              <TierBadge tier={c.matchTier} score={c.matchScore} />
-                              {c.confidence !== 'high' && <ConfidenceBadge level={c.confidence} />}
-                            </div>
+                            {(needsMatchBadge(c) || c.confidence !== 'high') && (
+                              <div className="mt-1 flex flex-wrap gap-1">
+                                {needsMatchBadge(c) && (
+                                  <TierBadge tier={c.matchTier} score={c.matchScore} />
+                                )}
+                                {c.confidence !== 'high' && <ConfidenceBadge level={c.confidence} />}
+                              </div>
+                            )}
                           </button>
                         </td>
                       );
