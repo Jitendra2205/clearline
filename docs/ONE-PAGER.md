@@ -3,6 +3,8 @@
 **Kill the Quote Spreadsheet · RFx-to-award for corrugated packaging**
 Jitendra Singh
 
+Live: https://clearline-m77b.onrender.com · Source: https://github.com/Jitendra2205/clearline
+
 ---
 
 ## The thesis
@@ -20,6 +22,21 @@ So one product principle governs every decision below:
 A buyer with ₹4 crore on the line does not need a system that is always right.
 They need one that is *never confidently wrong* — that shows its work, flags
 what it guessed, and lets them override it in one click.
+
+## Measured against the supplied ground truth
+
+`npm run eval` scores a real extraction against the answer key that shipped with
+the assignment — **34 of 34 checks pass**: the split award at ₹4,47,16,859 exact,
+the per-line winner on all 30 lines, both single-vendor totals, coverage of
+30 · 30 · 27 · 18 · 4, and the sheet pads normalised from per-100 to per piece.
+Alongside: 28/28 pipeline integration tests, and deterministic line matching at
+97.1% coverage with 100% precision.
+
+Both model providers sit behind one module, and the loops never learn which one
+answered. The PRD claimed swapping models would touch one file; porting from
+Claude to Gemini mid-build was the test, and it held. The figures above were
+produced on `gemini-3.6-flash`, which reads the letterhead PDF and the angled
+photograph as bytes rather than as pre-converted text.
 
 ## The decisions that matter
 
@@ -111,6 +128,14 @@ question is *what does the system do when it isn't sure*.
 - Two Shakti prose lines ("the 450x300mm 3-ply pad") are deliberately left to the review queue: a bare "pad" is ambiguous between a sheet pad and a layer pad, and those dimensions collide with a partition line. Declining is the designed behaviour, but it is a real coverage cost of refusing to guess.
 - The audit log is append-only by construction (no `UPDATE` or `DELETE` against it anywhere in the codebase) but is not cryptographically chained.
 - Extraction runs sequentially rather than through a real queue. The job table, idempotency keys and content-hash caching are in place; the worker is a loop.
+
+- The demo runs on free-tier hosting. The instance sleeps after ~15 minutes idle,
+  so the first request can take a minute. There is no persistent disk, so a
+  committed snapshot of a genuine extraction run is restored on every cold start
+  and anything done through the hosted app is lost on the next one; `LIBSQL_URL`
+  pointed at Turso makes it durable with no code change. Free-tier Gemini allows
+  20 requests per day per model — enough for one full extraction of the five
+  documents, not enough to leave live extraction open to the internet.
 
 ## The better problem
 
