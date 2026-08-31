@@ -21,9 +21,10 @@ deliberately left out.
 
 ## The dataset
 
-The demo runs on **RFQ-2026-PKG-0417** — the dataset supplied with the
-assignment, in `data/aerchain/`. Nexora Consumer Products, 30 line items,
-five vendors, five formats:
+The demo runs on **RFQ-2026-PKG-0417** — a synthetic dataset I authored for
+this build, in `data/aerchain/`. No sample data came with the assignment, so
+the documents and the expected answers are both mine. Nexora Consumer
+Products, 30 line items, five vendors, five formats:
 
 | Vendor | Format | The edge it carries | Coverage |
 |---|---|---|---|
@@ -37,7 +38,7 @@ Plus `adversarial/06_ADVERSARIAL_Apex_injection.docx` — a prompt injection set
 in white 1pt text, used as a permanent security regression fixture.
 
 The RFx is **parsed out of the buyer's own workbook at seed time**, not
-transcribed into code. This dataset arrived after the system was built and
+transcribed into code. The dataset was written after the system was, and
 nothing about it is hardcoded — which is the point of seeding it this way.
 
 The buyer's qualification criterion for this RFx is **ISO 9001 held AND on-time
@@ -68,9 +69,9 @@ analyst Q&A will tell you the key is missing rather than returning canned data.
 
 ```bash
 npm run test:pipeline    # 28 assertions on normalisation, matching and refusals — no model calls
-npm run test:match       # deterministic matcher against the supplied vendor descriptions
+npm run test:match       # deterministic matcher against the vendor descriptions
 npm run test:cascade     # deletion takes the derived rows with it, and leaves the audit trail
-npm run eval             # scores against the supplied ground truth (run npm run extract first)
+npm run eval             # scores against the authored answer key (run npm run extract first)
 npm run eval -- --json   # machine-readable; non-zero exit on any failure
 ```
 
@@ -88,8 +89,8 @@ A second, synthetic dataset is kept for regression (`npm run seed:synthetic`,
 
 ## Results
 
-Measured, not asserted. `npm run eval` scores the database after a real
-extraction against the supplied ground truth:
+`npm run eval` scores the database after a real extraction against the answer
+key in `data/aerchain/eval_question_set.json`:
 
 ```
 34/34 checks passed
@@ -107,16 +108,22 @@ Including the graded ones:
 | Line 1 across all five vendors, incl. the FX-converted one | exact | exact |
 | Shakti sheet pads, per 100 → per piece | 6.10 / 4.72 | 6.10 / 4.72 |
 
-Deterministic matching against the supplied vendor descriptions: **97.1%
+Deterministic matching against the vendor descriptions: **97.1%
 coverage at 100% precision**. Pipeline integration tests: **28/28**.
 
-One discrepancy worth flagging: the ground truth excludes MetroBoard for
-on-time delivery of 89.5%, but **that figure appears nowhere in the rate-card
-photograph supplied** — the card states ISO 9001, the in-house lab, lead time,
-payment terms and MOQ, and no delivery percentage. (The dataset README
-references a `ground_truth.json` carrying it; that file was not in the set.) So
-MetroBoard is excluded as *unassessable* on that question rather than as failing
-it. Same outcome, and the only conclusion the supplied evidence supports.
+**What this proves, and what it does not.** The documents and the answer key
+are both mine, so this is a regression harness, not independent validation: it
+shows the pipeline does what the spec says on the cases it was designed for,
+not that it generalises to real vendor documents. Scoring a different document
+set is one command, which is the obvious next step.
+
+One case is worth flagging, because the design rule worked against the author.
+The answer key expected MetroBoard to be excluded for on-time delivery of
+89.5%, but **that figure appears nowhere in the rate-card photograph** — the
+card states ISO 9001, the in-house lab, lead time, payment terms and MOQ, and
+no delivery percentage. MetroBoard is therefore excluded as *unassessable* on
+that question rather than as failing it, and the answer key was corrected
+rather than the system taught to invent the number.
 
 ## The three AI loops
 
@@ -161,9 +168,9 @@ src/lib/normalize/        matching, currency, unit of measure, the pipeline
 src/lib/query/            the analyst query engine — every number is computed here
 src/lib/security/         file sniffing, CSV sanitisation, signed URLs, the auth gate
 src/lib/db/               libSQL client and schema
-data/aerchain/            the supplied dataset and its eval question set
+data/aerchain/            the synthetic dataset and its eval question set
 scripts/seed-aerchain.ts  parses the buyer workbook and loads the documents
-scripts/eval-aerchain.ts  scores against the supplied ground truth
+scripts/eval-aerchain.ts  scores against the authored answer key
 scripts/                  extraction runner, pipeline tests, matcher tests
 ```
 
