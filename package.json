@@ -13,6 +13,7 @@
     "extract": "tsx scripts/extract.ts",
     "test:pipeline": "tsx scripts/test-pipeline.ts",
     "test:match": "tsx scripts/check-match-aerchain.ts",
+    "test:cascade": "tsx scripts/test-cascade.ts",
     "prestart": "tsx scripts/boot.ts",
     "seed:synthetic": "tsx scripts/seed.ts",
     "eval:synthetic": "tsx scripts/eval.ts",

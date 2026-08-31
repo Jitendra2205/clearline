@@ -68,7 +68,7 @@ export default function ExtractPanel({
       if (!res.ok) {
         setError(
           data.kind === 'no_api_key'
-            ? 'ANTHROPIC_API_KEY is not set. The extraction loop is real and will not run without it — add it to .env.local and restart.'
+            ? 'No provider API key is set. The extraction loop is real and will not run without one — add GEMINI_API_KEY (or ANTHROPIC_API_KEY) to .env.local and restart.'
             : (data.error ?? 'Extraction failed.'),
         );
         return;
@@ -80,6 +80,31 @@ export default function ExtractPanel({
             : `${r.filename ?? 'document'} — ${r.cached ? 'cached' : `${r.lines} lines, ${r.blocked} held, ${r.reviewItems} to review, ${((r.ms ?? 0) / 1000).toFixed(1)}s`}`,
         ),
       );
+      router.refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function removeDoc(docId: string, vendorName: string) {
+    // Deleting extracted work is not reversible here — there is no undo, and
+    // the file itself is gone with it. Worth one question first.
+    if (!confirm(`Remove the reply from ${vendorName}?\n\nThe file and everything extracted from it will be deleted. The supplier record stays.`)) {
+      return;
+    }
+    setBusy(`del:${docId}`);
+    setError(null);
+    setLog([]);
+    try {
+      const res = await fetch(`/api/document/${docId}`, { method: 'DELETE' });
+      const data = (await res.json()) as { error?: string; vendor?: string; quoteLinesRemoved?: number };
+      if (!res.ok) {
+        setError(data.error ?? 'Could not remove the reply.');
+        return;
+      }
+      setLog([`${data.vendor} removed — ${data.quoteLinesRemoved ?? 0} quoted line(s) taken out of the comparison.`]);
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -169,6 +194,15 @@ export default function ExtractPanel({
                   className="rounded-md border border-slate-300 px-2.5 py-1 text-[12px] font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
                 >
                   {busy === v.docId ? 'Reading…' : v.jobStatus === 'succeeded' ? 'Re-extract' : 'Extract'}
+                </button>
+
+                <button
+                  onClick={() => removeDoc(v.docId!, v.name)}
+                  disabled={busy !== null}
+                  title="Removes this reply and everything extracted from it. The supplier record stays."
+                  className="rounded-md border border-slate-300 px-2.5 py-1 text-[12px] font-medium text-slate-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:opacity-50"
+                >
+                  {busy === `del:${v.docId}` ? 'Removing…' : 'Remove'}
                 </button>
               </>
             ) : (

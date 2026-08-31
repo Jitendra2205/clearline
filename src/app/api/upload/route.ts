@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { requireAuth } from '@/lib/security/auth';
 import { sniff, sha256, safeFilename, MAX_BYTES } from '@/lib/security/files';
 import { one, all, run, j } from '@/lib/db/client';
+import { deleteDocumentDeep } from '@/lib/db/cascade';
 
 export const runtime = 'nodejs';
 
@@ -66,17 +67,7 @@ export async function POST(req: Request) {
   const prior = await all<{ id: string }>(
     'SELECT id FROM vendor_document WHERE rfx_id = ? AND vendor_id = ?', [rfxId, vendorId],
   );
-  for (const d of prior) {
-    const quotes = await all<{ id: string }>('SELECT id FROM quote WHERE doc_id = ?', [d.id]);
-    for (const q of quotes) {
-      await run('DELETE FROM review_item WHERE quote_id = ?', [q.id]);
-      await run('DELETE FROM quote_line WHERE quote_id = ?', [q.id]);
-      await run('DELETE FROM questionnaire_answer WHERE quote_id = ?', [q.id]);
-      await run('DELETE FROM quote WHERE id = ?', [q.id]);
-    }
-    await run('DELETE FROM extraction_job WHERE doc_id = ?', [d.id]);
-    await run('DELETE FROM vendor_document WHERE id = ?', [d.id]);
-  }
+  for (const d of prior) await deleteDocumentDeep(d.id);
 
   const buf = Buffer.from(await file.arrayBuffer());
   const filename = safeFilename(file.name);

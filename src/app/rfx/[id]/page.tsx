@@ -4,6 +4,7 @@ import { signDocToken } from '@/lib/security/signed';
 import { Shell, Panel, Badge, Stat } from '@/components/ui';
 import ExtractPanel from '@/components/ExtractPanel';
 import UploadPanel from '@/components/UploadPanel';
+import RfxAdmin from '@/components/RfxAdmin';
 import type { LineSpec } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -85,6 +86,19 @@ export default async function RfxOverview({ params }: { params: Promise<{ id: st
           tone={(openReviews?.n ?? 0) > 0 ? 'warn' : 'ok'}
         />
       </div>
+
+      <RfxAdmin
+        rfx={{
+          id: rfx.id,
+          title: rfx.title,
+          category: rfx.category,
+          delivery_location: rfx.delivery_location,
+          incoterm: rfx.incoterm,
+          payment_terms: rfx.payment_terms,
+          closes_at: rfx.closes_at,
+        }}
+        documentCount={vendors.filter((v) => v.doc_id).length}
+      />
 
       <div className="mb-5">
         <UploadPanel rfxId={id} knownVendors={vendors.map((v) => v.name)} />

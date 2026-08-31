@@ -69,6 +69,7 @@ analyst Q&A will tell you the key is missing rather than returning canned data.
 ```bash
 npm run test:pipeline    # 28 assertions on normalisation, matching and refusals — no model calls
 npm run test:match       # deterministic matcher against the supplied vendor descriptions
+npm run test:cascade     # deletion takes the derived rows with it, and leaves the audit trail
 npm run eval             # scores against the supplied ground truth (run npm run extract first)
 npm run eval -- --json   # machine-readable; non-zero exit on any failure
 ```
