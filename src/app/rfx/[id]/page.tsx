@@ -3,6 +3,7 @@ import { all, one, ready, j } from '@/lib/db/client';
 import { signDocToken } from '@/lib/security/signed';
 import { Shell, Panel, Badge, Stat } from '@/components/ui';
 import ExtractPanel from '@/components/ExtractPanel';
+import UploadPanel from '@/components/UploadPanel';
 import type { LineSpec } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -83,6 +84,10 @@ export default async function RfxOverview({ params }: { params: Promise<{ id: st
           value={openReviews?.n ?? 0}
           tone={(openReviews?.n ?? 0) > 0 ? 'warn' : 'ok'}
         />
+      </div>
+
+      <div className="mb-5">
+        <UploadPanel rfxId={id} knownVendors={vendors.map((v) => v.name)} />
       </div>
 
       <ExtractPanel
