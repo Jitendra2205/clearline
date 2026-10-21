@@ -37,11 +37,6 @@ services:
       # - key: ANTHROPIC_API_KEY
       #   sync: false
 
-      # Gates every route. Vendor pricing is commercially sensitive, and this
-      # URL is public. Set it to something you are happy to put in an email
-      # next to the link.
-      - key: CLEARLINE_PASSWORD
-        sync: false
 
       # Signs the short-TTL vendor-document links.
       - key: CLEARLINE_SIGNING_KEY

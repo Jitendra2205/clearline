@@ -1,5 +1,6 @@
 import { all, ready } from '@/lib/db/client';
 import { keyConfigured, provider, model } from '@/lib/ai/provider';
+import { authEnabled } from '@/lib/security/auth';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -27,7 +28,7 @@ export async function GET() {
         modelConfigured: keyConfigured(),
         provider: provider(),
         model: model(),
-        authGate: Boolean(process.env.CLEARLINE_PASSWORD),
+        authGate: authEnabled(),
       },
       { headers: { 'Cache-Control': 'no-store' } },
     );

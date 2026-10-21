@@ -2,7 +2,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 import { cookies } from 'next/headers';
 
 /**
- * A deliberately small auth gate.
+ * A deliberately small auth gate. Switched off for the public demo; see authEnabled().
  *
  * Multi-tenant auth and SSO are explicitly out of scope (see the one-pager) —
  * but "out of scope" cannot mean "no gate at all", because the data here is
@@ -22,9 +22,10 @@ function secret(): string {
   return process.env.CLEARLINE_PASSWORD ?? '';
 }
 
-/** Auth is enabled only when a password is configured. */
+/** Off for the public demo. Restore `secret().length > 0` to gate every route again. */
 export function authEnabled(): boolean {
-  return secret().length > 0;
+  // shortcut: no gate, so delete, upload and extract are open to anyone with the URL; restore before sharing with anyone untrusted
+  return false;
 }
 
 function sign(expiry: number): string {
